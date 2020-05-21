@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/myTasksFragment">
+
+    <fragment
+        android:id="@+id/myTasksFragment"
+        android:name="com.brocodes.wedoit.mytasks.MyTasksFragment"
+        android:label="MyTasksFragment"
+        tools:layout="@layout/fragment_my_tasks"
+        />
+    <fragment
+        android:id="@+id/priorityTasksFragment"
+        android:name="com.brocodes.wedoit.prioritytasks.PriorityTasksFragment"
+        tools:layout="@layout/fragment_priority_tasks"
+        android:label="PriorityTasksFragment" />
+    <fragment
+        android:id="@+id/dueTasksFragment"
+        android:name="com.brocodes.wedoit.duetasks.DueTasksFragment"
+        tools:layout="@layout/fragment_due_tasks"
+        android:label="DueTasksFragment" />
+    <fragment
+        android:id="@+id/completeTasksFragment"
+        android:name="com.brocodes.wedoit.completedtasks.CompleteTasksFragment"
+        tools:layout="@layout/fragment_completed_tasks"
+        android:label="CompleteTasksFragment" />
+</navigation>

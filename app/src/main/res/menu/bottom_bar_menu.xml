@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/myTasksFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_task_list"
+        android:title="@string/my_tasks"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/priorityTasksFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_priority"
+        android:title="@string/priority"
+        app:showAsAction="always" />
+
+    <item
+        android:title="@string/add_Task"
+        android:id="@+id/empty"
+        android:enabled="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/dueTasksFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_due"
+        android:title="@string/due"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/completeTasksFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_complete"
+        android:title="@string/complete"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+</menu>

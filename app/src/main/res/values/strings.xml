@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">We Do It</string>
+    <string name="day_name">Tuesday</string>
+    <string name="date">May 19 2020</string>
+    <string name="my_tasks">My Tasks</string>
+    <string name="due">Due</string>
+    <string name="complete">Complete</string>
+    <string name="place_holder">place Holder</string>
+    <string name="add_Task">Add Task</string>
+    <string name="task_title">Task:</string>
+    <string name="task_title_prompt">Enter your Task Name here</string>
+    <string name="task_description">Task Description:</string>
+    <string name="task_description_prompt">Please Describe your Task</string>
+    <string name="save">SAVE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="priority">Priority</string>
+    <string name="edit_task">Edit Task</string>
+
+
+    <string name="new_task_title_prompt">Enter the new name of the task here</string>
+    <string name="new_task_description_prompt">Please re-describe your task here</string>
+    <string name="search_title">Search Task</string>
+    <string name="switch_theme">Switch Theme</string>
+    <string name="delete_all">Delete All Tasks</string>
+    <string name="date_due">Date Due</string>
+    <string name="priority_value">3</string>
+    <string name="date_value">Due: 22 May 2020</string>
+    <string name="delete">Delete</string>
+
+    <string name="hello_my_tasks_fragment">Hello My Tasks</string>
+    <string name="hello_priority_tasks_fragment">Hello Priority Tasks</string>
+    <string name="hello_due_tasks_fragment">Hello Due Tasks</string>
+    <string name="hello_complete_tasks_fragment">Hello Complete Tasks</string>
+
+</resources>
