@@ -5,9 +5,18 @@
     <color name="colorAccent">#797584</color>
 
     <color name="codGray">#070707</color>
+    <color name="ebonyBlack"> #282C35</color>
+    <color name="onyxBlack">#0f0f0f</color>
     <color name="fragmentsBackground">#f5f5f6</color>
     <color name="completeTaskColor">#00CD66</color>
     <color name="deleteTaskColor">#EE0000</color>
+
+    <!--Priority Colors-->
+    <color name="priorityOne">#006400</color>
+    <color name="priorityTwo">#39ff14</color>
+    <color name="priorityThree">#ffa600</color>
+    <color name="priorityFour">#ff4e02</color>
+    <color name="priorityFive">#EE0000</color>
 
 
 

@@ -4,14 +4,18 @@
 
     <data>
 
+        <variable
+            name="task"
+            type="com.brocodes.wedoit.model.entity.Task" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp">
+        android:layout_marginBottom="5dp">
 
-        <!--<LinearLayout
+        <LinearLayout
             android:id="@+id/task_item_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -72,7 +76,7 @@
                     app:layout_constraintTop_toBottomOf="@id/task_delete_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>-->
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/task_item_foreground"
@@ -80,16 +84,15 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/fragmentsBackground">
 
+
             <TextView
                 android:id="@+id/priority_label_item"
+                priority="@{task.priority}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:background="@drawable/priority_background"
-                android:padding="2dp"
-                android:text="@string/priority_value"
+                android:padding="3dp"
                 android:textAlignment="center"
-                android:textColor="@color/codGray"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/date_value_item"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/task_title"
+                android:text="@{task.taskTitle}"
+                android:textColor="@color/onyxBlack"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/priority_label_item"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +116,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/task_description"
+                android:text="@{task.taskDescription}"
+                android:textColor="@color/onyxBlack"
                 app:layout_constraintStart_toEndOf="@id/priority_label_item"
                 app:layout_constraintTop_toBottomOf="@id/task_title_item" />
 
@@ -121,8 +126,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:text="@string/date_value"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/ebonyBlack"
+                android:text="@{`Due: ` + task.date}"
                 android:textSize="12sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
