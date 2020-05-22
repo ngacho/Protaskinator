@@ -27,6 +27,8 @@ class TaskListAdapter(private val taskList : List<Task>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: TaskListItemViewHolder, position: Int) = holder.bind(taskList[position])
 
+    fun getTaskAt(position : Int) = taskList[position]
+
     class TaskListItemViewHolder(private val taskListItem: TaskListItemBinding) : RecyclerView.ViewHolder(taskListItem.root) {
         fun bind(task : Task){
             taskListItem.task = task
