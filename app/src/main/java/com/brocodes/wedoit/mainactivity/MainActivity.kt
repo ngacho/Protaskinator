@@ -11,16 +11,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.addtask.AddTaskFragment
 import com.brocodes.wedoit.databinding.ActivityMainBinding
+import com.brocodes.wedoit.mainactivity.viewmodel.MainActivityViewModel
+import com.brocodes.wedoit.mainactivity.viewmodel.MainActivityViewModelFactory
+import com.brocodes.wedoit.model.repository.TaskRepository
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var taskRepository: TaskRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        taskRepository = TaskRepository(this)
+        val mainActivityViewModel = ViewModelProvider(
+            viewModelStore,
+            MainActivityViewModelFactory(taskRepository)
+        )
+            .get(MainActivityViewModel::class.java)
+
+
         val mainDataBinding =
             DataBindingUtil.setContentView<ActivityMainBinding>(
                 this,
@@ -34,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.fragment_holder)
         //set up the bottom navigation with navController
         bottomNavigationView.setupWithNavController(navController)
-
-
         val addTask = mainDataBinding.addTask
         addTask.setOnClickListener {
             showAddTaskFragment()
