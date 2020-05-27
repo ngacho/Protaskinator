@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -72,13 +73,15 @@ class MyTasksFragment : Fragment() {
             ): Boolean = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val swipedTask = taskListAdapter.getTaskAt(viewHolder.adapterPosition)
                 if (direction == ItemTouchHelper.RIGHT) {
-                    Log.d("Right swipe", "Item completed")
+                    //swipe left to complete task
+                    myTasksViewModel.completeTask(swipedTask)
+                    Toast.makeText(requireContext(), "Task Completed", Toast.LENGTH_SHORT).show()
                 } else {
-                    Log.d("Task swiped", "Position $direction")
-                    val task = taskListAdapter.getTaskAt(viewHolder.adapterPosition)
-                    myTasksViewModel.deleteTask(task)
-                    taskListAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                    //swipe right to complete task
+                    myTasksViewModel.deleteTask(swipedTask)
+                    Toast.makeText(requireContext(), "Task Deleted", Toast.LENGTH_SHORT).show()
                 }
 
             }

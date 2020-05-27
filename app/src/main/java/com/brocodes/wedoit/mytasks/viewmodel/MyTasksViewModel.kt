@@ -13,7 +13,8 @@ class MyTasksViewModel(private val repository: TaskRepository) :  ViewModel(){
         repository.deleteTask(task)
     }
 
-    fun updateTask(task: Task) = viewModelScope.launch {
+    fun completeTask(task: Task) = viewModelScope.launch {
+        task.isComplete = true
         repository.updateTask(task)
     }
 
