@@ -10,6 +10,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE complete = :isComplete")
     fun fetchIncompleteTasks(isComplete : Boolean): LiveData<List<Task>>
 
+    @Query("SELECT * FROM tasks WHERE complete = :isComplete")
+    fun fetchCompleteTasks(isComplete : Boolean): LiveData<List<Task>>
+
     @Insert
     suspend fun insert(task: Task)
 
@@ -21,4 +24,7 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks")
     suspend fun nukeTable()
+
+    @Query("SELECT * FROM tasks WHERE priority > :priority")
+    fun fetchPriorityTasks(priority : Int) : LiveData<List<Task>>
 }

@@ -53,9 +53,7 @@ class MyTasksFragment : Fragment() {
 
 
         val myTasksRecyclerView = myTasksBinding.myTasksRecyclerview
-        myTasksRecyclerView.apply {
-            setHasFixedSize(true)
-        }
+        myTasksRecyclerView.setHasFixedSize(true)
 
         myTasksViewModel.allTasks.observe(viewLifecycleOwner, Observer {
             taskListAdapter = TaskListAdapter(it)
