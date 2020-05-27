@@ -8,10 +8,10 @@ import com.brocodes.wedoit.model.entity.Task
 interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE complete = :isComplete")
-    fun fetchIncompleteTasks(isComplete : Boolean): LiveData<List<Task>>
+    fun fetchIncompleteTasks(isComplete : Boolean = false): LiveData<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE complete = :isComplete")
-    fun fetchCompleteTasks(isComplete : Boolean): LiveData<List<Task>>
+    fun fetchCompleteTasks(isComplete : Boolean = true): LiveData<List<Task>>
 
     @Insert
     suspend fun insert(task: Task)
@@ -25,6 +25,6 @@ interface TaskDao {
     @Query("DELETE FROM tasks")
     suspend fun nukeTable()
 
-    @Query("SELECT * FROM tasks WHERE priority > :priority")
-    fun fetchPriorityTasks(priority : Int) : LiveData<List<Task>>
+    @Query("SELECT * FROM tasks WHERE priority > :priority AND complete = :isComplete")
+    fun fetchPriorityTasks(priority : Int = 3, isComplete: Boolean = false) : LiveData<List<Task>>
 }
