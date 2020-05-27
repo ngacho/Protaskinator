@@ -1,11 +1,8 @@
 package com.brocodes.wedoit.mytasks
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
-import android.graphics.RectF
-import android.graphics.drawable.Drawable
+import android.graphics.*
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +17,6 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentMyTasksBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
-import com.brocodes.wedoit.model.entity.Task
 import com.brocodes.wedoit.mytasks.viewmodel.MyTasksViewModel
 import com.brocodes.wedoit.mytasks.viewmodel.MyTasksViewModelFactory
 
@@ -64,8 +60,7 @@ class MyTasksFragment : Fragment() {
             myTasksRecyclerView.adapter = taskListAdapter
         })
 
-        val paint = Paint()
-        val swipeCallBack = object : ItemTouchHelper.SimpleCallback(
+        val swipeActionsCallBack = object : ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
         ) {
@@ -77,15 +72,17 @@ class MyTasksFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.RIGHT) {
-
+                    Log.d("Right swipe", "Item completed")
                 } else {
-                    val deletedTask = taskListAdapter.getTaskAt(viewHolder.adapterPosition)
-                    myTasksViewModel.deleteTask(deletedTask)
+                    Log.d("Task swiped", "Position $direction")
+                    val task = taskListAdapter.getTaskAt(viewHolder.adapterPosition)
+                    myTasksViewModel.deleteTask(task)
                     taskListAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                 }
+
             }
 
-            override fun onChildDrawOver(
+            override fun onChildDraw(
                 canvas: Canvas,
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -95,56 +92,55 @@ class MyTasksFragment : Fragment() {
                 isCurrentlyActive: Boolean
             ) {
 
-                val swipedItemView = viewHolder.itemView
-                val height = swipedItemView.height
-                val width = height / 3
-                val icon: Drawable
+                val itemView = viewHolder.itemView
+                val width = itemView.height / 3
 
+                //val icon: Drawable
                 if (dX > 0) {
-                    //color when swiped
+                    val paint = Paint()
+                    //Swipe right
                     paint.color =
                         ContextCompat.getColor(requireContext(), R.color.completeTaskColor)
                     val background = RectF(
-                        swipedItemView.left.toFloat(),
-                        swipedItemView.top.toFloat(),
+                        itemView.left.toFloat(),
+                        itemView.top.toFloat(),
                         dX,
-                        swipedItemView.bottom.toFloat()
+                        itemView.bottom.toFloat()
                     )
                     canvas.drawRect(background, paint)
-
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_complete)!!
+                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_complete)!!
                     val iconBounds = Rect(
-                        swipedItemView.left + width,
-                        swipedItemView.top + width,
-                        swipedItemView.left + 2 * width,
-                        swipedItemView.bottom - width
+                        itemView.left + width,
+                        itemView.top + width,
+                        itemView.left + 2 * width,
+                        itemView.bottom - width
                     )
                     icon.bounds = iconBounds
                     icon.draw(canvas)
-
-
                 } else {
+                    val paint = Paint()
+                    //Swipe right
                     paint.color = ContextCompat.getColor(requireContext(), R.color.deleteTaskColor)
                     val background = RectF(
-                        swipedItemView.right.toFloat() + dX,
-                        swipedItemView.top.toFloat(),
-                        swipedItemView.right.toFloat(),
-                        swipedItemView.bottom.toFloat()
+                        itemView.left.toFloat() + dX,
+                        itemView.top.toFloat(),
+                        itemView.right.toFloat(),
+                        itemView.bottom.toFloat()
                     )
                     canvas.drawRect(background, paint)
-
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!
+                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!
                     val iconBounds = Rect(
-                        swipedItemView.right - 2 * width,
-                        swipedItemView.top + width,
-                        swipedItemView.right - width,
-                        swipedItemView.bottom - width
+                        itemView.right - 2 * width,
+                        itemView.top + width,
+                        itemView.right - width,
+                        itemView.bottom - width
                     )
                     icon.bounds = iconBounds
                     icon.draw(canvas)
                 }
 
-                super.onChildDrawOver(
+
+                super.onChildDraw(
                     canvas,
                     recyclerView,
                     viewHolder,
@@ -153,10 +149,12 @@ class MyTasksFragment : Fragment() {
                     actionState,
                     isCurrentlyActive
                 )
+
             }
         }
 
-        val itemTouchHelper = ItemTouchHelper(swipeCallBack)
+
+        val itemTouchHelper = ItemTouchHelper(swipeActionsCallBack)
         itemTouchHelper.attachToRecyclerView(myTasksRecyclerView)
 
 
@@ -164,4 +162,3 @@ class MyTasksFragment : Fragment() {
         return myTasksBinding.root
     }
 }
-
