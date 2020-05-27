@@ -1,5 +1,5 @@
 # WeDo
-A simple but elegant note taking app
+A simple but elegant To-Do List app
 
 ## Uses:
 1. MVVM architecture.
