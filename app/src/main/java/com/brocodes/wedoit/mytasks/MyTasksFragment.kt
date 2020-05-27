@@ -1,6 +1,7 @@
 package com.brocodes.wedoit.mytasks
 
 import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -95,9 +96,9 @@ class MyTasksFragment : Fragment() {
                 val itemView = viewHolder.itemView
                 val width = itemView.height / 3
 
-                //val icon: Drawable
+                val icon: Drawable
+                val paint = Paint()
                 if (dX > 0) {
-                    val paint = Paint()
                     //Swipe right
                     paint.color =
                         ContextCompat.getColor(requireContext(), R.color.completeTaskColor)
@@ -108,7 +109,7 @@ class MyTasksFragment : Fragment() {
                         itemView.bottom.toFloat()
                     )
                     canvas.drawRect(background, paint)
-                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_complete)!!
+                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_complete)!!
                     val iconBounds = Rect(
                         itemView.left + width,
                         itemView.top + width,
@@ -118,8 +119,7 @@ class MyTasksFragment : Fragment() {
                     icon.bounds = iconBounds
                     icon.draw(canvas)
                 } else {
-                    val paint = Paint()
-                    //Swipe right
+                    //Swipe Left
                     paint.color = ContextCompat.getColor(requireContext(), R.color.deleteTaskColor)
                     val background = RectF(
                         itemView.left.toFloat() + dX,
@@ -128,7 +128,7 @@ class MyTasksFragment : Fragment() {
                         itemView.bottom.toFloat()
                     )
                     canvas.drawRect(background, paint)
-                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!
+                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!
                     val iconBounds = Rect(
                         itemView.right - 2 * width,
                         itemView.top + width,
