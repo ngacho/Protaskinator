@@ -1,25 +1,23 @@
 package com.brocodes.wedoit.addtask
 
-import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.addtask.viewmodel.AddTaskViewModel
 import com.brocodes.wedoit.addtask.viewmodel.AddTaskViewModelFactory
+import com.brocodes.wedoit.commonutils.getDateString
 import com.brocodes.wedoit.databinding.FragmentAddTaskBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.util.*
 
 
 class AddTaskFragment : BottomSheetDialogFragment() {
@@ -63,14 +61,22 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
 
         saveButton.setOnClickListener {
+            val cal = Calendar.getInstance()
             //Fetch task if both task title and task name are not the same
             if (!taskNameEditText.text.toString()
                     .isBlank() && !taskDescriptionEditText.text.toString().isBlank()
             ) {
+
+
+                cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
+                cal[Calendar.MONTH] = datePicker.month
+                cal[Calendar.YEAR] = datePicker.year
+                val selectedTimeInMillis = cal.timeInMillis
+
                 val taskName = taskNameEditText.text.toString().trim()
                 val taskDescription = taskDescriptionEditText.text.toString().trim()
                 val priority = priorityPicker.value
-                val date = "${datePicker.dayOfMonth + 7}-${datePicker.month}-${datePicker.year}"
+                val date = getDateString(selectedTimeInMillis)
                 val task = Task(
                     taskTitle = taskName,
                     taskDescription = taskDescription,
