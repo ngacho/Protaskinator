@@ -11,6 +11,7 @@ data class Task(
     @ColumnInfo(name = "title") val taskTitle: String,
     @ColumnInfo(name = "description") val taskDescription: String,
     @ColumnInfo(name = "priority") val priority : Int,
-    @ColumnInfo(name = "dueDate") val date: String
+    @ColumnInfo(name = "dueDate") val date: String,
+    @ColumnInfo(name = "complete") val isComplete : Boolean = false
 ){
 }

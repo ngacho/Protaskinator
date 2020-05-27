@@ -7,8 +7,8 @@ import com.brocodes.wedoit.model.entity.Task
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM tasks")
-    fun fetchAllTasks(): LiveData<List<Task>>
+    @Query("SELECT * FROM tasks WHERE complete = :isComplete")
+    fun fetchIncompleteTasks(isComplete : Boolean): LiveData<List<Task>>
 
     @Insert
     suspend fun insert(task: Task)

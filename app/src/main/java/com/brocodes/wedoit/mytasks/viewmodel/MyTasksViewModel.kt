@@ -7,10 +7,14 @@ import com.brocodes.wedoit.model.repository.TaskRepository
 import kotlinx.coroutines.launch
 
 class MyTasksViewModel(private val repository: TaskRepository) :  ViewModel(){
-    val allTasks = repository.getTasksList()
+    val allTasks = repository.getIncompleteTasks(false)
 
     fun deleteTask(task: Task) = viewModelScope.launch {
         repository.deleteTask(task)
+    }
+
+    fun updateTask(task: Task) = viewModelScope.launch {
+        repository.updateTask(task)
     }
 
 }
