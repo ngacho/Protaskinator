@@ -31,57 +31,46 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/task_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/task_title"
-                android:textColor="@color/codGray"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/task_title_edittext"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_task_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
-                android:fontFamily="@font/montserrat"
-                android:hint="@string/task_title_prompt"
-                android:maxLines="2"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/task_title" />
+                app:layout_constraintTop_toBottomOf="@id/title">
 
-            <TextView
-                android:id="@+id/task_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/task_description"
-                android:textColor="@color/codGray"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/task_title_edittext" />
+                <EditText
+                    android:id="@+id/task_title_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/task_title_prompt"
+                    android:maxLines="2"
+                    android:textSize="15sp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/task_description_edittext"
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_task_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/montserrat"
-                android:hint="@string/task_description_prompt"
-                android:maxLines="7"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/task_description" />
+                app:layout_constraintTop_toBottomOf="@id/til_task_title">
+
+                <EditText
+                    android:id="@+id/task_description_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/task_description_prompt"
+                    android:maxLines="7"
+                    android:textSize="15sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/priority_label"
@@ -105,7 +94,7 @@
                 app:layout_constraintBottom_toTopOf="@id/date_due_picker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/priority_label"
-                app:layout_constraintTop_toBottomOf="@id/task_description_edittext"
+                app:layout_constraintTop_toBottomOf="@id/til_task_description"
                 app:np_divider="@color/codGray"
                 app:np_dividerColor="@color/colorPrimary"
                 app:np_fadingEdgeEnabled="true"
