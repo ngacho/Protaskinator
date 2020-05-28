@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.brocodes.wedoit.R
+import com.brocodes.wedoit.commonutils.SwipeActionCallBack
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentMyTasksBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
@@ -60,101 +61,24 @@ class MyTasksFragment : Fragment() {
             myTasksRecyclerView.adapter = taskListAdapter
         })
 
-        val swipeActionsCallBack = object : ItemTouchHelper.SimpleCallback(
+        val swipeActionsCallBack = object : SwipeActionCallBack(
+            requireContext(),
             0,
             ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
         ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean = false
-
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val swipedTask = taskListAdapter.getTaskAt(viewHolder.adapterPosition)
                 if (direction == ItemTouchHelper.RIGHT) {
-                    //swipe left to complete task
+                    //swipe left to right to complete task
                     myTasksViewModel.completeTask(swipedTask)
-                    Toast.makeText(requireContext(), "Task Completed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Task Completed", Toast.LENGTH_SHORT).show()
                 } else {
-                    //swipe right to complete task
+                    //swipe right to left to delete task
                     myTasksViewModel.deleteTask(swipedTask)
-                    Toast.makeText(requireContext(), "Task Deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Task Deleted", Toast.LENGTH_SHORT).show()
                 }
-
-            }
-
-            override fun onChildDraw(
-                canvas: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-
-                val itemView = viewHolder.itemView
-                val width = itemView.height / 3
-
-                val icon: Drawable
-                val paint = Paint()
-                if (dX > 0) {
-                    //Swipe right
-                    paint.color =
-                        ContextCompat.getColor(requireContext(), R.color.completeTaskColor)
-                    val background = RectF(
-                        itemView.left.toFloat(),
-                        itemView.top.toFloat(),
-                        dX,
-                        itemView.bottom.toFloat()
-                    )
-                    canvas.drawRect(background, paint)
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_complete)!!
-                    val iconBounds = Rect(
-                        itemView.left + width,
-                        itemView.top + width,
-                        itemView.left + 2 * width,
-                        itemView.bottom - width
-                    )
-                    icon.bounds = iconBounds
-                    icon.draw(canvas)
-                } else {
-                    //Swipe Left
-                    paint.color = ContextCompat.getColor(requireContext(), R.color.deleteTaskColor)
-                    val background = RectF(
-                        itemView.left.toFloat() + dX,
-                        itemView.top.toFloat(),
-                        itemView.right.toFloat(),
-                        itemView.bottom.toFloat()
-                    )
-                    canvas.drawRect(background, paint)
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!
-                    val iconBounds = Rect(
-                        itemView.right - 2 * width,
-                        itemView.top + width,
-                        itemView.right - width,
-                        itemView.bottom - width
-                    )
-                    icon.bounds = iconBounds
-                    icon.draw(canvas)
-                }
-
-
-                super.onChildDraw(
-                    canvas,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                )
-
             }
         }
-
-
         val itemTouchHelper = ItemTouchHelper(swipeActionsCallBack)
         itemTouchHelper.attachToRecyclerView(myTasksRecyclerView)
 
