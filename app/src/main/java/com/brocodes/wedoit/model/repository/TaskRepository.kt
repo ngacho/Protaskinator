@@ -8,6 +8,7 @@ class TaskRepository(context: Context) {
     private val taskDao = DataBaseBuilder.getInstance(context).taskDao()
 
     fun getIncompleteTasks()  = taskDao.fetchIncompleteTasks()
+    fun getCompleteTasks() = taskDao.fetchCompleteTasks()
     fun getPriorityTasks() = taskDao.fetchPriorityTasks()
     suspend fun updateTask(task: Task) = taskDao.update(task)
     suspend fun insertTask(task: Task) = taskDao.insert(task)
