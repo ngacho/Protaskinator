@@ -15,3 +15,8 @@ fun setTextViewColor(textView: TextView, int: Int) = when(int){
     5 -> textView.setBackgroundColor(ContextCompat.getColor(textView.context, R.color.priorityFive))
     else -> textView.setBackgroundColor(ContextCompat.getColor(textView.context, R.color.fragmentsBackground))
 }
+
+@BindingAdapter("dueDate")
+fun showDueDate(textView: TextView, dueDate: Long) {
+    textView.text = textView.context.getString(R.string.due_date, getDateString(dueDate))
+}

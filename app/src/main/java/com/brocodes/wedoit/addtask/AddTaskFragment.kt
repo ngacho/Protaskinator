@@ -1,6 +1,7 @@
 package com.brocodes.wedoit.addtask
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,17 +72,23 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
                 cal[Calendar.MONTH] = datePicker.month
                 cal[Calendar.YEAR] = datePicker.year
-                val selectedTimeInMillis = cal.timeInMillis
+                val todayTimeInMillis = Calendar.getInstance().timeInMillis
+                val selectedTimeInMillis =
+                    if ((cal.timeInMillis / (1000 * 3600 * 24)) <= todayTimeInMillis / (1000 * 3600 * 24)) {
+                        todayTimeInMillis + (1000 * 3600 * 24 * 7)
+                    } else {
+                        cal.timeInMillis
+                    }
 
                 val taskName = taskNameEditText.text.toString().trim()
                 val taskDescription = taskDescriptionEditText.text.toString().trim()
                 val priority = priorityPicker.value
-                val date = getDateString(selectedTimeInMillis)
                 val task = Task(
                     taskTitle = taskName,
                     taskDescription = taskDescription,
                     priority = priority,
-                    date = date
+                    date = selectedTimeInMillis
+
                 )
                 addTaskViewModel.addTask(task)
                 Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT).show()

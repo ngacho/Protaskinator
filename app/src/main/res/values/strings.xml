@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">We Do It</string>
     <string name="day_name">Tuesday</string>
-    <string name="date">May 19 2020</string>
+    <string name="due_date">Due: %1$s</string>
     <string name="my_tasks">My Tasks</string>
     <string name="due">Due</string>
     <string name="complete">Complete</string>
