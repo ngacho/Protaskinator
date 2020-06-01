@@ -16,7 +16,9 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.commonutils.SwipeActionCallBack
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentPriorityTasksBinding
+import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
+import com.brocodes.wedoit.model.entity.Task
 import com.brocodes.wedoit.prioritytasks.viewmodel.PriorityTasksViewModel
 import com.brocodes.wedoit.prioritytasks.viewmodel.PriorityTasksViewModelFactory
 
@@ -52,10 +54,7 @@ class PriorityTasksFragment : Fragment() {
         priorityTasksViewModel.priorityTasks.observe(
             viewLifecycleOwner,
             Observer { priorityTasksList ->
-                priorityTasksList.forEach {
-                    Log.d("Priority Tasks", "Task ${it.taskTitle} of Priorrity ${it.priority}")
-                }
-                priorityTasksAdapter = TaskListAdapter(priorityTasksList)
+                priorityTasksAdapter = TaskListAdapter(priorityTasksList) {task -> showEditTaskFragment(task) }
                 priorityTasksRecyclerView.adapter = priorityTasksAdapter
             })
 
@@ -83,6 +82,11 @@ class PriorityTasksFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return priorityTasksBinding.root
+    }
+
+    private fun showEditTaskFragment(task : Task){
+        val bottomSheetFragment = EditTaskFragment(task)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
 }

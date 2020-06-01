@@ -8,7 +8,8 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.databinding.TaskListItemBinding
 import com.brocodes.wedoit.model.entity.Task
 
-class TaskListAdapter(private val taskList : List<Task>) : RecyclerView.Adapter<TaskListAdapter.TaskListItemViewHolder>() {
+class TaskListAdapter(private val taskList: List<Task>, private val clickListener: (Task) -> Unit) :
+    RecyclerView.Adapter<TaskListAdapter.TaskListItemViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListItemViewHolder {
@@ -25,12 +26,15 @@ class TaskListAdapter(private val taskList : List<Task>) : RecyclerView.Adapter<
 
     override fun getItemCount(): Int = taskList.size
 
-    override fun onBindViewHolder(holder: TaskListItemViewHolder, position: Int) = holder.bind(taskList[position])
+    override fun onBindViewHolder(holder: TaskListItemViewHolder, position: Int) =
+        holder.bind(taskList[position], clickListener = clickListener)
 
-    fun getTaskAt(position : Int) = taskList[position]
+    fun getTaskAt(position: Int) = taskList[position]
 
-    class TaskListItemViewHolder(private val taskListItem: TaskListItemBinding) : RecyclerView.ViewHolder(taskListItem.root) {
-        fun bind(task : Task){
+    class TaskListItemViewHolder(private val taskListItem: TaskListItemBinding) :
+        RecyclerView.ViewHolder(taskListItem.root) {
+        fun bind(task: Task, clickListener: (Task) -> Unit) {
+            itemView.setOnClickListener { clickListener(task) }
             taskListItem.task = task
             taskListItem.executePendingBindings()
         }

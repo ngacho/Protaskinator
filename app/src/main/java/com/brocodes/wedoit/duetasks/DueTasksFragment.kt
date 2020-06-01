@@ -17,7 +17,9 @@ import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentDueTasksBinding
 import com.brocodes.wedoit.duetasks.viewmodel.DueTasksViewModel
 import com.brocodes.wedoit.duetasks.viewmodel.DueTasksViewModelFactory
+import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
+import com.brocodes.wedoit.model.entity.Task
 
 class DueTasksFragment : Fragment() {
 
@@ -46,18 +48,22 @@ class DueTasksFragment : Fragment() {
         val dueTasksRecyclerView = dueTasksBinding.dueTasksRecyclerview
         dueTasksRecyclerView.setHasFixedSize(true)
         dueTasksViewModel.allDueTasks.observe(viewLifecycleOwner, Observer {
-            dueTasksListAdapter = TaskListAdapter(it)
+            dueTasksListAdapter = TaskListAdapter(it) { task: Task -> showEditTaskFragment(task) }
             dueTasksRecyclerView.adapter = dueTasksListAdapter
         })
 
         val swipeActionCallBack = object :
-            SwipeActionCallBack(requireContext(), 0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT){
+            SwipeActionCallBack(
+                requireContext(),
+                0,
+                ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+            ) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val selectedTask = dueTasksListAdapter.getTaskAt(viewHolder.adapterPosition)
-                if(direction == ItemTouchHelper.RIGHT){
+                if (direction == ItemTouchHelper.RIGHT) {
                     dueTasksViewModel.completeTask(selectedTask)
                     Toast.makeText(context, "Task Marked Incomplete", Toast.LENGTH_SHORT).show()
-                }else{
+                } else {
                     dueTasksViewModel.deleteTask(selectedTask)
                     Toast.makeText(context, "Task Deleted", Toast.LENGTH_SHORT).show()
                 }
@@ -68,8 +74,12 @@ class DueTasksFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(dueTasksRecyclerView)
 
 
-
         // Inflate the layout for this fragment
         return dueTasksBinding.root
+    }
+
+    private fun showEditTaskFragment(task: Task) {
+        val bottomSheetFragment = EditTaskFragment(task)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 }

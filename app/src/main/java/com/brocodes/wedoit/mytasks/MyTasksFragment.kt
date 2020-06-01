@@ -19,7 +19,9 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.commonutils.SwipeActionCallBack
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentMyTasksBinding
+import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
+import com.brocodes.wedoit.model.entity.Task
 import com.brocodes.wedoit.mytasks.viewmodel.MyTasksViewModel
 import com.brocodes.wedoit.mytasks.viewmodel.MyTasksViewModelFactory
 
@@ -57,7 +59,7 @@ class MyTasksFragment : Fragment() {
         myTasksRecyclerView.setHasFixedSize(true)
 
         myTasksViewModel.allTasks.observe(viewLifecycleOwner, Observer {
-            taskListAdapter = TaskListAdapter(it)
+            taskListAdapter = TaskListAdapter(it) { task -> showEditTaskFragment(task) }
             myTasksRecyclerView.adapter = taskListAdapter
         })
 
@@ -85,5 +87,10 @@ class MyTasksFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return myTasksBinding.root
+    }
+
+    private fun showEditTaskFragment(task: Task) {
+        val bottomSheetFragment = EditTaskFragment(task)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 }
