@@ -1,22 +1,19 @@
 package com.brocodes.wedoit.duetasks
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.commonutils.SwipeActionCallBack
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentDueTasksBinding
-import com.brocodes.wedoit.duetasks.viewmodel.DueTasksViewModel
-import com.brocodes.wedoit.duetasks.viewmodel.DueTasksViewModelFactory
 import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
@@ -33,10 +30,8 @@ class DueTasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dueTasksRepository = (activity as MainActivity).taskRepository
-        val dueTasksViewModel =
-            ViewModelProvider(viewModelStore, DueTasksViewModelFactory(dueTasksRepository))
-                .get(DueTasksViewModel::class.java)
+
+        val dueTasksViewModel = (activity as MainActivity).mainActivityViewModel
 
         val dueTasksBinding = DataBindingUtil.inflate<FragmentDueTasksBinding>(
             inflater,

@@ -1,6 +1,5 @@
 package com.brocodes.wedoit.completedtasks
 
-import android.content.ClipData
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
@@ -15,12 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.brocodes.wedoit.R
-import com.brocodes.wedoit.completedtasks.viewmodel.CompletedTasksViewModel
-import com.brocodes.wedoit.completedtasks.viewmodel.CompletedTasksViewModelFactory
 import com.brocodes.wedoit.databinding.FragmentCompletedTasksBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
 
@@ -35,10 +31,8 @@ class CompleteTasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val completeTasksRepository = (activity as MainActivity).taskRepository
-        val completedTasksViewModel =
-            ViewModelProvider(this, CompletedTasksViewModelFactory(completeTasksRepository))
-                .get(CompletedTasksViewModel::class.java)
+
+        val completedTasksViewModel = (activity as MainActivity).mainActivityViewModel
 
         val completeTasksBinding = DataBindingUtil.inflate<FragmentCompletedTasksBinding>(
             inflater,
@@ -65,10 +59,10 @@ class CompleteTasksFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val selectedTask = completeTasksListAdapter.getTaskAt(viewHolder.adapterPosition)
-                if(direction == ItemTouchHelper.RIGHT){
+                if (direction == ItemTouchHelper.RIGHT) {
                     completedTasksViewModel.inCompleteTask(selectedTask)
                     Toast.makeText(context, "Task Marked Incomplete", Toast.LENGTH_SHORT).show()
-                }else{
+                } else {
                     completedTasksViewModel.deleteTask(selectedTask)
                     Toast.makeText(context, "Task Deleted", Toast.LENGTH_SHORT).show()
                 }

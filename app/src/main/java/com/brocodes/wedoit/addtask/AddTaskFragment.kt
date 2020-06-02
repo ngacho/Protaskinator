@@ -1,17 +1,12 @@
 package com.brocodes.wedoit.addtask
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.brocodes.wedoit.R
-import com.brocodes.wedoit.addtask.viewmodel.AddTaskViewModel
-import com.brocodes.wedoit.addtask.viewmodel.AddTaskViewModelFactory
-import com.brocodes.wedoit.commonutils.getDateString
 import com.brocodes.wedoit.databinding.FragmentAddTaskBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
@@ -30,12 +25,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val repository = (activity as MainActivity).taskRepository
-
-        val addTaskViewModel = ViewModelProvider(
-            this,
-            AddTaskViewModelFactory(repository)
-        ).get(AddTaskViewModel::class.java)
+        val addTaskViewModel = (activity as MainActivity).mainActivityViewModel
 
         // Set dialog initial state when shown
         dialog?.setOnShowListener {
@@ -63,26 +53,27 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
         saveButton.setOnClickListener {
             val cal = Calendar.getInstance()
-            //Fetch task if both task title and task name are not the same
+
+            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
+            cal[Calendar.MONTH] = datePicker.month
+            cal[Calendar.YEAR] = datePicker.year
+            val todayTimeInMillis = Calendar.getInstance().timeInMillis
+            val selectedTimeInMillis =
+                if ((cal.timeInMillis / (1000 * 3600 * 24)) <= todayTimeInMillis / (1000 * 3600 * 24)) {
+                    todayTimeInMillis + (1000 * 3600 * 24 * 7)
+                } else {
+                    cal.timeInMillis
+                }
+
+            val priority = priorityPicker.value
+            //Fetch task if both task title and task name are not the empty
             if (!taskNameEditText.text.toString()
                     .isBlank() && !taskDescriptionEditText.text.toString().isBlank()
             ) {
 
-
-                cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
-                cal[Calendar.MONTH] = datePicker.month
-                cal[Calendar.YEAR] = datePicker.year
-                val todayTimeInMillis = Calendar.getInstance().timeInMillis
-                val selectedTimeInMillis =
-                    if ((cal.timeInMillis / (1000 * 3600 * 24)) <= todayTimeInMillis / (1000 * 3600 * 24)) {
-                        todayTimeInMillis + (1000 * 3600 * 24 * 7)
-                    } else {
-                        cal.timeInMillis
-                    }
-
                 val taskName = taskNameEditText.text.toString().trim()
                 val taskDescription = taskDescriptionEditText.text.toString().trim()
-                val priority = priorityPicker.value
+
                 val task = Task(
                     taskTitle = taskName,
                     taskDescription = taskDescription,

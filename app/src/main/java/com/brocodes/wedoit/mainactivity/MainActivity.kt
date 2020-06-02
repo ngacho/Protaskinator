@@ -23,17 +23,18 @@ import com.brocodes.wedoit.model.repository.TaskRepository
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var taskRepository: TaskRepository
+    lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        taskRepository = TaskRepository(this)
-        val mainActivityViewModel = ViewModelProvider(
-            viewModelStore,
-            MainActivityViewModelFactory(taskRepository)
-        )
-            .get(MainActivityViewModel::class.java)
+        val taskRepository = TaskRepository(this)
+        mainActivityViewModel =
+            ViewModelProvider(
+                viewModelStore,
+                MainActivityViewModelFactory(taskRepository)
+            )
+                .get(MainActivityViewModel::class.java)
 
 
         val mainDataBinding =
@@ -84,6 +85,18 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.deleteAll -> {
+                mainActivityViewModel.deleteAllTasks()
+                return true
+            }
+            R.id.darkmode -> {
+                //add dark mode feature
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun showAddTaskFragment() {
         val bottomSheetFragment = AddTaskFragment()

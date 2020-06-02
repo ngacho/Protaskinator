@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.databinding.FragmentEditTaskBinding
-import com.brocodes.wedoit.edittask.viewmodel.EditTaskViewModel
-import com.brocodes.wedoit.edittask.viewmodel.EditTaskViewModelFactory
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -25,11 +22,7 @@ class EditTaskFragment(private var task: Task) : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val repository = (activity as MainActivity).taskRepository
-
-        val editTaskViewModel =
-            ViewModelProvider(viewModelStore, EditTaskViewModelFactory(repository))
-                .get(EditTaskViewModel::class.java)
+        val editTaskViewModel = (activity as MainActivity).mainActivityViewModel
 
         // Set dialog initial state when shown
         dialog?.setOnShowListener {
