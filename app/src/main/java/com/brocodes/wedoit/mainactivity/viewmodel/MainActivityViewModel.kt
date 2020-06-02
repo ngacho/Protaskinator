@@ -6,8 +6,9 @@ import com.brocodes.wedoit.model.entity.Task
 import com.brocodes.wedoit.model.repository.TaskRepository
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class MainActivityViewModel(private val repository: TaskRepository) : ViewModel() {
+class MainActivityViewModel @Inject constructor(private val repository: TaskRepository) : ViewModel() {
     private val today = Calendar.getInstance().timeInMillis
 
     val incompleteTasks = repository.getIncompleteTasks()

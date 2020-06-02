@@ -11,31 +11,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.addtask.AddTaskFragment
 import com.brocodes.wedoit.databinding.ActivityMainBinding
+import com.brocodes.wedoit.di.DaggerAppComponent
 import com.brocodes.wedoit.mainactivity.viewmodel.MainActivityViewModel
-import com.brocodes.wedoit.mainactivity.viewmodel.MainActivityViewModelFactory
-import com.brocodes.wedoit.model.repository.TaskRepository
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    @Inject
     lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Ask Dagger to inject our dependencies
+        DaggerAppComponent.factory().create(context = this).inject(mainActivity = this)
         super.onCreate(savedInstanceState)
-
-        val taskRepository = TaskRepository(this)
-        mainActivityViewModel =
-            ViewModelProvider(
-                viewModelStore,
-                MainActivityViewModelFactory(taskRepository)
-            )
-                .get(MainActivityViewModel::class.java)
-
 
         val mainDataBinding =
             DataBindingUtil.setContentView<ActivityMainBinding>(
@@ -86,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.deleteAll -> {
                 mainActivityViewModel.deleteAllTasks()
                 return true
