@@ -20,7 +20,6 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentCompletedTasksBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
-import com.brocodes.wedoit.model.entity.Task
 
 class CompleteTasksFragment : Fragment() {
 

@@ -9,10 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.databinding.TaskListItemBinding
 import com.brocodes.wedoit.model.entity.Task
-import kotlinx.android.synthetic.main.complete_task_list_item.view.*
-import kotlinx.android.synthetic.main.task_list_item.view.*
-import kotlinx.android.synthetic.main.task_list_item.view.task_description_item
-import kotlinx.android.synthetic.main.task_list_item.view.task_title_item
 
 class TaskListAdapter(private val taskList: List<Task>, private val clickListener: (Task) -> Unit) :
     RecyclerView.Adapter<TaskListAdapter.TaskListItemViewHolder>() {
@@ -40,7 +36,7 @@ class TaskListAdapter(private val taskList: List<Task>, private val clickListene
     class TaskListItemViewHolder(private val taskListItem: TaskListItemBinding) :
         RecyclerView.ViewHolder(taskListItem.root) {
         fun bind(task: Task, clickListener: (Task) -> Unit) {
-            if(task.isComplete){
+            if (task.isComplete) {
                 //strike through these items
                 taskListItem.taskTitleItem.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -52,9 +48,7 @@ class TaskListAdapter(private val taskList: List<Task>, private val clickListene
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
                 //hide the rest
-                taskListItem.priorityLabelItem.apply {
-                    visibility = View.GONE
-                }
+                taskListItem.priorityLabelItem.visibility = View.GONE
             }
             itemView.setOnClickListener { clickListener(task) }
             taskListItem.task = task
