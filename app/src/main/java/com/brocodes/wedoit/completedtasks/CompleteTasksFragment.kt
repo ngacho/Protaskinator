@@ -17,12 +17,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.brocodes.wedoit.R
+import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentCompletedTasksBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
+import com.brocodes.wedoit.model.entity.Task
 
 class CompleteTasksFragment : Fragment() {
 
-    private lateinit var completeTasksListAdapter: CompleteTasksListAdapter
+    private lateinit var completeTasksListAdapter: TaskListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,7 +47,7 @@ class CompleteTasksFragment : Fragment() {
         completeTasksRecyclerView.setHasFixedSize(true)
 
         completedTasksViewModel.completeTasks.observe(viewLifecycleOwner, Observer {
-            completeTasksListAdapter = CompleteTasksListAdapter(it)
+            completeTasksListAdapter = TaskListAdapter(it) { Unit }
             completeTasksRecyclerView.adapter = completeTasksListAdapter
         })
 
