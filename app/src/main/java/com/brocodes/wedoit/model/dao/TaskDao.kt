@@ -13,7 +13,7 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE complete = :isComplete")
     fun fetchCompleteTasks(isComplete : Boolean = true): LiveData<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE 86400000 > (dueDate - :today) AND complete = :isComplete")
+    @Query("SELECT * FROM tasks WHERE 86400000 >= (dueDate - :today) AND complete = :isComplete")
     fun fetchDueTasks(isComplete : Boolean = false, today : Long): LiveData<List<Task>>
 
     @Insert
