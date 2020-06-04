@@ -101,7 +101,10 @@ class MyTasksFragment : Fragment() {
     }
 
     private fun showEditTaskFragment(task: Task) {
-        val bottomSheetFragment = EditTaskFragment(task)
+        val bundle = Bundle()
+        bundle.putSerializable("edit_task", task)
+        val bottomSheetFragment = EditTaskFragment()
+        bottomSheetFragment.arguments = bundle
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 }

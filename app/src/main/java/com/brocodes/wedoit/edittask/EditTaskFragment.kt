@@ -16,7 +16,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 
-class EditTaskFragment(private var task: Task) : BottomSheetDialogFragment() {
+class EditTaskFragment : BottomSheetDialogFragment() {
+
+
+    private lateinit var task: Task
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //pass task as bundle to avoid crashing
+        if (arguments != null)
+            task = requireArguments().getSerializable("edit_task") as Task
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
