@@ -8,16 +8,14 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(private val repository: TaskRepository) : ViewModel() {
-    private val today = Calendar.getInstance().timeInMillis
+class MainActivityViewModel @Inject constructor(private val repository: TaskRepository) :
+    ViewModel() {
 
     val incompleteTasks = repository.getIncompleteTasks()
 
     val priorityTasks = repository.getPriorityTasks()
 
     val completeTasks = repository.getCompleteTasks()
-
-    val allDueTasks = repository.getDueTasks(today)
 
     fun addTask(task: Task) = viewModelScope.launch {
         repository.insertTask(task)

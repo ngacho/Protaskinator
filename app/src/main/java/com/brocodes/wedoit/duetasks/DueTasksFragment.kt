@@ -17,6 +17,7 @@ import com.brocodes.wedoit.databinding.FragmentDueTasksBinding
 import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
+import java.util.*
 
 class DueTasksFragment : Fragment() {
 
@@ -42,8 +43,15 @@ class DueTasksFragment : Fragment() {
 
         val dueTasksRecyclerView = dueTasksBinding.dueTasksRecyclerview
         dueTasksRecyclerView.setHasFixedSize(true)
-        dueTasksViewModel.allDueTasks.observe(viewLifecycleOwner, Observer {
-            dueTasksListAdapter = TaskListAdapter(it) { task: Task -> showEditTaskFragment(task) }
+        val today = Calendar.getInstance().timeInMillis
+        dueTasksViewModel.incompleteTasks.observe(viewLifecycleOwner, Observer { incompleteTaskList ->
+            val dueTasks = arrayListOf<Task>()
+            incompleteTaskList.forEach {
+                if(it.date - today < 86400000)
+                    dueTasks.add(it)
+
+            }
+            dueTasksListAdapter = TaskListAdapter(dueTasks) { task: Task -> showEditTaskFragment(task) }
             dueTasksRecyclerView.adapter = dueTasksListAdapter
         })
 
@@ -94,6 +102,7 @@ class DueTasksFragment : Fragment() {
         })
         super.onPrepareOptionsMenu(menu)
     }
+
     private fun showEditTaskFragment(task: Task) {
         val bottomSheetFragment = EditTaskFragment(task)
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
