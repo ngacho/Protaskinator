@@ -3,7 +3,6 @@ package com.brocodes.wedoit.mainactivity
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -14,10 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.brocodes.wedoit.MyApplication
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.addtask.AddTaskFragment
 import com.brocodes.wedoit.databinding.ActivityMainBinding
-import com.brocodes.wedoit.di.DaggerAppComponent
 import com.brocodes.wedoit.mainactivity.viewmodel.MainActivityViewModel
 import javax.inject.Inject
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
-        DaggerAppComponent.factory().create(context = this).inject(mainActivity = this)
+        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         val mainDataBinding =

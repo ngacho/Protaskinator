@@ -1,6 +1,7 @@
 package com.brocodes.wedoit.di
 
 import android.content.Context
+import com.brocodes.wedoit.addtask.AddTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -18,4 +19,5 @@ interface AppComponent {
 
     //classes that can be inject by this component
     fun inject(mainActivity: MainActivity)
+
 }
