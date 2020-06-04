@@ -6,10 +6,10 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,6 +26,7 @@ class CompleteTasksFragment : Fragment() {
     private lateinit var completeTasksListAdapter: TaskListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -142,5 +143,27 @@ class CompleteTasksFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return completeTasksBinding.root
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        //Override from main activity so that fragments can be searchable
+        val searchItem: MenuItem? = menu.findItem(R.id.search)
+        val searchView = searchItem?.actionView as SearchView
+
+        //searchView to listen for text and filter recyclerview
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d("Completed Tasks Search", query.toString())
+                completeTasksListAdapter.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Log.d("Completed Tasks Search", newText.toString())
+                completeTasksListAdapter.filter.filter(newText)
+                return false
+            }
+        })
+        super.onPrepareOptionsMenu(menu)
     }
 }

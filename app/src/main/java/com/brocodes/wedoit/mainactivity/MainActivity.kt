@@ -3,6 +3,7 @@ package com.brocodes.wedoit.mainactivity
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mainActivityViewModel: MainActivityViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
@@ -60,11 +62,11 @@ class MainActivity : AppCompatActivity() {
         //Search Bar and interface
         val searchItem: MenuItem? = menu?.findItem(R.id.search)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView: SearchView? = searchItem?.actionView as SearchView
-        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        val searchView = searchItem?.actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
 
         //changing colors of search and close icon
-        val searchIcon = searchView?.findViewById(R.id.search_button) as ImageView
+        val searchIcon = searchView.findViewById(R.id.search_button) as ImageView
         searchIcon.setColorFilter(black)
         val closeIcon = searchView.findViewById(R.id.search_close_btn) as ImageView
         closeIcon.setColorFilter(black)

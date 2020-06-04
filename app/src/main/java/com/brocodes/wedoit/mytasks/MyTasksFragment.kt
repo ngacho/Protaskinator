@@ -1,10 +1,10 @@
 package com.brocodes.wedoit.mytasks
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,6 +25,7 @@ class MyTasksFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
     }
 
@@ -75,6 +76,28 @@ class MyTasksFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return myTasksBinding.root
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        //Override from main activity so that fragments can be searchable
+        val searchItem: MenuItem? = menu.findItem(R.id.search)
+        val searchView = searchItem?.actionView as SearchView
+
+        //searchView to listen for text and filter recyclerview
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d("Completed Tasks Search", query.toString())
+                taskListAdapter.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Log.d("My Tasks Search", newText.toString())
+                taskListAdapter.filter.filter(newText)
+                return false
+            }
+        })
+        super.onPrepareOptionsMenu(menu)
     }
 
     private fun showEditTaskFragment(task: Task) {
