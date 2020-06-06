@@ -10,7 +10,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/darkmode"
+        android:id="@+id/changeTheme"
         android:title="@string/switch_theme"
         app:showAsAction="never" />
 

@@ -1,12 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
         <!-- Support library compatibility -->
         <item name="actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
@@ -14,12 +15,12 @@
 
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <!--Changes the color for -->
-        <item name="android:tint">@color/codGray</item>
+        <item name="android:tint">@color/primary_view_color</item>
     </style>
 
 
     <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat">
-        <item name="android:textColor">@color/codGray</item>
+        <item name="android:textColor">@color/primary_view_color</item>
         <item name="android:textSize">25sp</item>
         <item name="android:fontFamily">@font/droid_sans_bold</item>
     </style>
@@ -47,8 +48,8 @@
         <item name="iconGravity">start</item>
         <item name="android:layout_marginBottom">20dp</item>
         <item name="android:textSize">15sp</item>
-        <item name="iconTint">@color/codGray</item>
-        <item name="android:textColor">@color/codGray</item>
+        <item name="iconTint">@color/primary_view_color</item>
+        <item name="android:textColor">@color/primary_view_color</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">

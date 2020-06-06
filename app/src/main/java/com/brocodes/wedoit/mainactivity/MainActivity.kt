@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
         (application as MyApplication).appComponent.inject(this)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
 
         val mainDataBinding =
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val black = ContextCompat.getColor(
             this,
-            R.color.codGray
+            R.color.primary_view_color
         )
 
         //Search Bar and interface
@@ -85,8 +87,8 @@ class MainActivity : AppCompatActivity() {
                 mainActivityViewModel.deleteAllTasks()
                 return true
             }
-            R.id.darkmode -> {
-                //add dark mode feature
+            R.id.changeTheme -> {
+
             }
         }
         return super.onOptionsItemSelected(item)

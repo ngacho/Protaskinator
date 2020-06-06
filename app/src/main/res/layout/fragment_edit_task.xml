@@ -23,7 +23,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/edit_task"
-                android:textColor="@color/codGray"
+                android:textColor="@color/primary_view_color"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +35,8 @@
                 android:id="@+id/til_task_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/secondary_view_color"
+                app:hintTextColor="@color/secondary_view_color"
                 app:layout_constraintTop_toBottomOf="@id/title">
 
                 <EditText
@@ -47,6 +49,7 @@
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/new_task_title_prompt"
                     android:maxLines="2"
+                    android:textColor="@color/secondary_view_color"
                     android:textSize="15sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -55,6 +58,8 @@
                 android:id="@+id/til_task_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/secondary_view_color"
+                app:hintTextColor="@color/secondary_view_color"
                 app:layout_constraintTop_toBottomOf="@id/til_task_title">
 
                 <EditText
@@ -67,6 +72,7 @@
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/new_task_description_prompt"
                     android:maxLines="7"
+                    android:textColor="@color/secondary_view_color"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,7 +83,7 @@
                 android:layout_marginStart="35dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/priority"
-                android:textColor="@color/codGray"
+                android:textColor="@color/primary_view_color"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/number_picker"
@@ -93,16 +99,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/priority_label"
                 app:layout_constraintTop_toBottomOf="@id/til_task_description"
-                app:np_divider="@color/codGray"
+                app:np_divider="@color/primary_view_color"
                 app:np_dividerColor="@color/colorPrimary"
                 app:np_fadingEdgeEnabled="true"
                 app:np_height="30dp"
                 app:np_max="5"
                 app:np_min="1"
                 app:np_orientation="horizontal"
-                app:np_selectedTextColor="@color/codGray"
+                app:np_selectedTextColor="@color/primary_view_color"
                 app:np_selectedTextSize="28dp"
-                app:np_textColor="@color/codGray"
+                app:np_textColor="@color/primary_view_color"
                 app:np_textSize="20sp"
                 app:np_value="3"
                 app:np_width="90dp" />
@@ -115,7 +121,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/date_due"
-                android:textColor="@color/codGray"
+                android:textColor="@color/primary_view_color"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/date_due_picker"

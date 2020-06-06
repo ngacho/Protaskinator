@@ -52,8 +52,8 @@
                 android:background="@color/colorPrimary"
                 android:theme="@style/AppThemeMaterial"
                 app:contentInsetStart="0dp"
-                app:itemIconTint="@color/codGray"
-                app:itemTextColor="@color/codGray"
+                app:itemIconTint="@color/primary_view_color"
+                app:itemTextColor="@color/primary_view_color"
                 app:menu="@menu/bottom_bar_menu" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
