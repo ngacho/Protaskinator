@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -18,6 +17,9 @@ import com.brocodes.wedoit.MyApplication
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.addtask.AddTaskFragment
 import com.brocodes.wedoit.databinding.ActivityMainBinding
+import com.brocodes.wedoit.mainactivity.utils.SharedPrefs
+import com.brocodes.wedoit.mainactivity.utils.loadInitialTheme
+import com.brocodes.wedoit.mainactivity.utils.switchTheme
 import com.brocodes.wedoit.mainactivity.viewmodel.MainActivityViewModel
 import javax.inject.Inject
 
@@ -26,11 +28,16 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mainActivityViewModel: MainActivityViewModel
 
+    private lateinit var prefs: SharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
-        (application as MyApplication).appComponent.inject(this)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        val appComponent = (application as MyApplication).appComponent
+        appComponent.inject(this)
+        //Initialize Theme
+        prefs = (application as MyApplication).preferences
+        loadInitialTheme(prefs)
+
         super.onCreate(savedInstanceState)
 
         val mainDataBinding =
@@ -88,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.changeTheme -> {
-
+                switchTheme(prefs)
             }
         }
         return super.onOptionsItemSelected(item)
