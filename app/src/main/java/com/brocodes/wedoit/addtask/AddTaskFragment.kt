@@ -13,6 +13,8 @@ import com.brocodes.wedoit.model.entity.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.vivekkaushik.datepicker.DatePickerTimeline
+import com.vivekkaushik.datepicker.OnDateSelectedListener
 import java.util.*
 
 
@@ -48,23 +50,34 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         val priorityPicker = addTaskBinding.numberPicker
         val saveButton = addTaskBinding.saveButton
         val cancelButton = addTaskBinding.cancelButton
+        //setting up the date picker
         val datePicker = addTaskBinding.dateDuePicker
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_YEAR, 1)
+        datePicker.setInitialDate(
+            cal[Calendar.YEAR],
+            cal[Calendar.MONTH],
+            cal[Calendar.DAY_OF_MONTH]
+        )
+        //setting listener here bc it doesnt work in the fragment
+        datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
+            override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
+                cal[Calendar.DAY_OF_MONTH] = day
+                cal[Calendar.MONTH] = month
+                cal[Calendar.YEAR] = year
+            }
 
+            override fun onDisabledDateSelected(
+                year: Int,
+                month: Int,
+                day: Int,
+                dayOfWeek: Int,
+                isDisabled: Boolean
+            ) = Toast.makeText(requireContext(), "Invalid Date Selected", Toast.LENGTH_SHORT).show()
+
+        })
 
         saveButton.setOnClickListener {
-            val cal = Calendar.getInstance()
-
-            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
-            cal[Calendar.MONTH] = datePicker.month
-            cal[Calendar.YEAR] = datePicker.year
-            val todayTimeInMillis = Calendar.getInstance().timeInMillis
-            val selectedTimeInMillis =
-                if ((cal.timeInMillis / (1000 * 3600 * 24)) <= todayTimeInMillis / (1000 * 3600 * 24)) {
-                    todayTimeInMillis + (1000 * 3600 * 24 * 7)
-                } else {
-                    cal.timeInMillis
-                }
-
             val priority = priorityPicker.value
             //Fetch task if both task title and task name are not the empty
             if (!taskNameEditText.text.toString()
@@ -78,9 +91,9 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     taskTitle = taskName,
                     taskDescription = taskDescription,
                     priority = priority,
-                    date = selectedTimeInMillis
-
+                    date = cal.timeInMillis
                 )
+
                 addTaskViewModel.addTask(task)
                 Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT).show()
                 dismiss()
@@ -101,6 +114,4 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
         return addTaskBinding.root
     }
-
-
 }

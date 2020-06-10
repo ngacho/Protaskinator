@@ -1,5 +1,6 @@
 package com.brocodes.wedoit.edittask
 
+import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +15,13 @@ import com.brocodes.wedoit.model.entity.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.vivekkaushik.datepicker.OnDateSelectedListener
+import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_OFF
+import java.time.Duration
+import java.time.Period
+import java.time.temporal.ChronoUnit
 import java.util.*
+import kotlin.math.abs
 
 class EditTaskFragment : BottomSheetDialogFragment() {
 
@@ -51,32 +58,59 @@ class EditTaskFragment : BottomSheetDialogFragment() {
         val taskNameEditText = editTaskBinding.taskTitleEdittext
         val taskDescriptionEditText = editTaskBinding.taskDescriptionEdittext
         val priorityPicker = editTaskBinding.numberPicker
-        val datePicker = editTaskBinding.dateDuePicker
         val saveButton = editTaskBinding.saveButton
         val cancelButton = editTaskBinding.cancelButton
-
-        //changing the date into time in millis to be set in the date picker
-        val cal = Calendar.getInstance()
-        cal.timeInMillis = task.date
-
         //updating the edit text fragments based on values in the task
         taskNameEditText.text.append(task.taskTitle)
         taskDescriptionEditText.text.append(task.taskDescription)
         priorityPicker.value = task.priority
-        datePicker.updateDate(cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH])
+
+        //set up date picker
+        val datePicker = editTaskBinding.dateDuePicker
+        val cal = Calendar.getInstance()
+        //changing the date into time in millis to be set in the date picker
+        cal.timeInMillis = task.date
+        datePicker.setInitialDate(
+            cal[Calendar.YEAR],
+            cal[Calendar.MONTH],
+            cal[Calendar.DAY_OF_MONTH]
+        )
+        val currentTime = Calendar.getInstance()
+        val dates = mutableListOf<Date>()
+        if (currentTime.timeInMillis > cal.timeInMillis) {
+            dates.add(currentTime.time)
+            val daysBetween = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(
+                abs(currentTime.timeInMillis - cal.timeInMillis)
+            )
+            for (days in 0 until daysBetween){
+                currentTime.add(Calendar.DAY_OF_YEAR, -1)
+                dates.add(currentTime.time)
+            }
+        }
+        datePicker.deactivateDates(dates.toTypedArray())
+        datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
+            override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
+                cal[Calendar.DAY_OF_MONTH] = day
+                cal[Calendar.MONTH] = month
+                cal[Calendar.YEAR] = year
+            }
+
+            override fun onDisabledDateSelected(
+                year: Int,
+                month: Int,
+                day: Int,
+                dayOfWeek: Int,
+                isDisabled: Boolean
+            ) = Toast.makeText(
+                requireContext(),
+                "Please use another date, Not Today",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        })
 
         saveButton.setOnClickListener {
-            //calendar and priority picker implementations
-            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
-            cal[Calendar.MONTH] = datePicker.month
-            cal[Calendar.YEAR] = datePicker.year
-            val todayTimeInMillis = Calendar.getInstance().timeInMillis
-            val selectedTimeInMillis =
-                if ((cal.timeInMillis / (1000 * 3600 * 24)) <= todayTimeInMillis / (1000 * 3600 * 24)) {
-                    todayTimeInMillis + (1000 * 3600 * 24 * 7)
-                } else {
-                    cal.timeInMillis
-                }
+            Log.d("save button", "Save button clicked")
 
             val priority = priorityPicker.value
 
@@ -102,7 +136,7 @@ class EditTaskFragment : BottomSheetDialogFragment() {
                 taskTitle = taskName,
                 taskDescription = taskDescription,
                 priority = priority,
-                date = selectedTimeInMillis
+                date = cal.timeInMillis
 
             )
             editTaskViewModel.editTask(newTask)
