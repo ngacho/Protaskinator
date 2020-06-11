@@ -28,14 +28,14 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mainActivityViewModel: MainActivityViewModel
 
-    private lateinit var prefs: SharedPrefs
+    @Inject
+    lateinit var prefs: SharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
         val appComponent = (application as MyApplication).appComponent
         appComponent.inject(this)
         //Initialize Theme
-        prefs = (application as MyApplication).preferences
         loadInitialTheme(prefs)
 
         super.onCreate(savedInstanceState)
