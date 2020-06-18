@@ -1,6 +1,5 @@
 package com.brocodes.wedoit.edittask
 
-import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,10 +15,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vivekkaushik.datepicker.OnDateSelectedListener
-import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_OFF
-import java.time.Duration
-import java.time.Period
-import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.math.abs
 
@@ -67,7 +62,7 @@ class EditTaskFragment : BottomSheetDialogFragment() {
 
         //set up date picker
         val datePicker = editTaskBinding.dateDuePicker
-        val cal = Calendar.getInstance()
+        val cal = Calendar.getInstance(Locale.getDefault())
         //changing the date into time in millis to be set in the date picker
         cal.timeInMillis = task.date
         datePicker.setInitialDate(
@@ -75,14 +70,15 @@ class EditTaskFragment : BottomSheetDialogFragment() {
             cal[Calendar.MONTH],
             cal[Calendar.DAY_OF_MONTH]
         )
-        val currentTime = Calendar.getInstance()
+        val currentTime = Calendar.getInstance(Locale.getDefault())
         val dates = mutableListOf<Date>()
         if (currentTime.timeInMillis > cal.timeInMillis) {
+            dates.add(cal.time)
             dates.add(currentTime.time)
             val daysBetween = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(
                 abs(currentTime.timeInMillis - cal.timeInMillis)
             )
-            for (days in 0 until daysBetween){
+            for (days in 0 until daysBetween) {
                 currentTime.add(Calendar.DAY_OF_YEAR, -1)
                 dates.add(currentTime.time)
             }
@@ -91,6 +87,9 @@ class EditTaskFragment : BottomSheetDialogFragment() {
         datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
             override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
                 cal[Calendar.DAY_OF_MONTH] = day
+                cal[Calendar.HOUR_OF_DAY] = 6
+                cal[Calendar.MINUTE] = 0
+                cal[Calendar.SECOND] = 0
                 cal[Calendar.MONTH] = month
                 cal[Calendar.YEAR] = year
             }
@@ -103,7 +102,7 @@ class EditTaskFragment : BottomSheetDialogFragment() {
                 isDisabled: Boolean
             ) = Toast.makeText(
                 requireContext(),
-                "Please use another date, Not Today",
+                "Please use another date.",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -153,4 +152,5 @@ class EditTaskFragment : BottomSheetDialogFragment() {
 
         return editTaskBinding.root
     }
+
 }

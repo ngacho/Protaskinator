@@ -13,9 +13,9 @@ import com.brocodes.wedoit.model.entity.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.vivekkaushik.datepicker.DatePickerTimeline
 import com.vivekkaushik.datepicker.OnDateSelectedListener
 import java.util.*
+import kotlin.random.Random
 
 
 class AddTaskFragment : BottomSheetDialogFragment() {
@@ -52,17 +52,20 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         val cancelButton = addTaskBinding.cancelButton
         //setting up the date picker
         val datePicker = addTaskBinding.dateDuePicker
-        val cal = Calendar.getInstance()
+        val cal = Calendar.getInstance(Locale.getDefault())
         cal.add(Calendar.DAY_OF_YEAR, 1)
         datePicker.setInitialDate(
             cal[Calendar.YEAR],
             cal[Calendar.MONTH],
             cal[Calendar.DAY_OF_MONTH]
         )
-        //setting listener here bc it doesnt work in the fragment
+        //setting listener here bc it doesnt work in the button
         datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
             override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
                 cal[Calendar.DAY_OF_MONTH] = day
+                cal[Calendar.HOUR_OF_DAY] = 6
+                cal[Calendar.MINUTE] = 0
+                cal[Calendar.SECOND] = 0
                 cal[Calendar.MONTH] = month
                 cal[Calendar.YEAR] = year
             }
@@ -78,6 +81,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         })
 
         saveButton.setOnClickListener {
+
             val priority = priorityPicker.value
             //Fetch task if both task title and task name are not the empty
             if (!taskNameEditText.text.toString()
@@ -93,7 +97,6 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     priority = priority,
                     date = cal.timeInMillis
                 )
-
                 addTaskViewModel.addTask(task)
                 Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT).show()
                 dismiss()

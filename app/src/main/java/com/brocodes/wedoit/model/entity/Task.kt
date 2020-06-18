@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.util.*
 
 @Entity(tableName = "tasks")
 data class Task(
@@ -12,5 +13,6 @@ data class Task(
     @ColumnInfo(name = "description") val taskDescription: String,
     @ColumnInfo(name = "priority") val priority: Int,
     @ColumnInfo(name = "dueDate") val date: Long,
-    @ColumnInfo(name = "complete") var isComplete: Boolean = false
+    @ColumnInfo(name = "complete") var isComplete: Boolean = false,
+    @ColumnInfo(name = "workManagerId") var workRequestId : String? = null
 ) : Serializable

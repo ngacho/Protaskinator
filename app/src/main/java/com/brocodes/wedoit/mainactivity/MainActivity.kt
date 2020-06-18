@@ -1,5 +1,6 @@
 package com.brocodes.wedoit.mainactivity
 
+import android.app.NotificationManager
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
@@ -53,10 +54,18 @@ class MainActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.fragment_holder)
         //set up the bottom navigation with navController
         bottomNavigationView.setupWithNavController(navController)
+
         val addTask = mainDataBinding.addTask
         addTask.setOnClickListener {
             showAddTaskFragment()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //cancel the notifications when activity is launched
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
