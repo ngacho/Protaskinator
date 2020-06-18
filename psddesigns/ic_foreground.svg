@@ -1,11 +1,7 @@
 <svg id="Logo" xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 640 640">
   <defs>
     <style>
-      .cls-1 {
-        fill: #90a4ae;
-      }
-
-      .cls-2 {
+      .cls-1, .cls-2 {
         fill: #f3ead9;
       }
 
