@@ -63,7 +63,7 @@ class MainActivityViewModel @Inject constructor(private val repository: TaskRepo
         //cancel the original work request
         task.workRequestId?.let {
             val workId = UUID.fromString(it)
-            WorkManager.getInstance().cancelWorkById(workId)
+            workManager.cancelWorkById(workId)
         }
         //set a new request if the date due isnt less than today
         if (task.date > Calendar.getInstance().timeInMillis) {
@@ -84,7 +84,7 @@ class MainActivityViewModel @Inject constructor(private val repository: TaskRepo
             //assign the work request id to be saved in the database
             task.workRequestId = notificationWorkRequest.id.toString()
 
-            WorkManager.getInstance()
+            workManager
                 .enqueue(notificationWorkRequest)
         }
 

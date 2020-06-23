@@ -1,12 +1,9 @@
 package com.brocodes.wedoit
 
 import android.app.Application
-import android.app.NotificationManager
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.brocodes.wedoit.di.AppComponent
 import com.brocodes.wedoit.di.DaggerAppComponent
-import com.brocodes.wedoit.mainactivity.utils.SharedPrefs
 import com.brocodes.wedoit.notification.NotificationHelper
 
 open class MyApplication : Application() {

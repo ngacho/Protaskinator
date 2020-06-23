@@ -1,7 +1,6 @@
 package com.brocodes.wedoit.di
 
 import android.content.Context
-import com.brocodes.wedoit.addtask.AddTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
 import dagger.BindsInstance
 import dagger.Component
