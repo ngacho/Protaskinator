@@ -31,5 +31,25 @@
     <string name="hello_priority_tasks_fragment">Hello Priority Tasks</string>
     <string name="hello_due_tasks_fragment">Hello Due Tasks</string>
     <string name="hello_complete_tasks_fragment">Hello Complete Tasks</string>
+    <string name="title_activity_onboarding">Onboarding</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="onboarding_skip">SKIP</string>
+    <string name="onboarding_next">NEXT</string>
+    <string name="onboarding_finish">FINISH</string>
+    <string name="onboarding_previous">PREVIOUS</string>
+    <string name="swipe_to_complete_task">Swipe Right to Complete Task</string>
+    <string name="protaskination_description">Protaskination is perfect for Procastinators.\n Be reminded of your due tasks on their due date</string>
+    <string name="welcome">Welcome!</string>
+    <string name="swipe_to_delete_task">Swipe left to delete task</string>
+    <string name="swipe_actions_description">Manage your tasks easily by simply swiping Left and Right</string>
+    <string name="priority_description">Identify your tasks by their priorities easily</string>
 </resources>

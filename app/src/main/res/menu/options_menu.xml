@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_search"
         android:title="@string/search_title"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="collapseActionView|ifRoom" />
 
     <item
         android:id="@+id/changeTheme"
