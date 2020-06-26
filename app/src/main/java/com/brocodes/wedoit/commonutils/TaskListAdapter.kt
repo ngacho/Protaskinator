@@ -12,16 +12,14 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.databinding.TaskListItemBinding
 import com.brocodes.wedoit.model.entity.Task
 import java.util.*
-import kotlin.collections.ArrayList
 
-class TaskListAdapter(private val taskList: List<Task>, private val clickListener: (Task) -> Unit) :
+class TaskListAdapter(
+    private val originalTaskList: List<Task>,
+    private val clickListener: (Task) -> Unit
+) :
     RecyclerView.Adapter<TaskListAdapter.TaskListItemViewHolder>(), Filterable {
 
-    private var filteredTaskList = ArrayList<Task>()
-
-    init {
-        filteredTaskList = taskList as ArrayList<Task>
-    }
+    private var filteredTaskList: List<Task> = originalTaskList
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListItemViewHolder {
@@ -43,41 +41,46 @@ class TaskListAdapter(private val taskList: List<Task>, private val clickListene
 
     fun getTaskAt(position: Int) = filteredTaskList[position]
 
-    override fun getFilter(): Filter = object : Filter() {
+
+    override fun getFilter() = taskFilter
+
+    private val taskFilter = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val charString = constraint.toString()
-            filteredTaskList = if (charString.isEmpty()) taskList as ArrayList<Task>
-            else {
-                val tempFilteredTaskList = arrayListOf<Task>()
-                filteredTaskList.forEach {
-                    //search within the task list, add items to it each time a character changes
+            val taskFilterResults = FilterResults()
+            val searchQuery = constraint.toString()
+            filteredTaskList = if (searchQuery.isEmpty()) {
+                originalTaskList
+            } else {
+                val temporaryFilteredTaskList = mutableListOf<Task>()
+                originalTaskList.forEach {
                     if (it.taskTitle.toLowerCase(Locale.getDefault()).contains(
-                            charString.toLowerCase(
+                            searchQuery.toLowerCase(
                                 Locale.getDefault()
                             )
                         ) || it.taskDescription.toLowerCase(Locale.getDefault()).contains(
-                            charString.toLowerCase(
+                            searchQuery.toLowerCase(
                                 Locale.getDefault()
                             )
                         )
                     ) {
-                        tempFilteredTaskList.add(it)
+                        temporaryFilteredTaskList.add(it)
                     }
                 }
-                tempFilteredTaskList
+                temporaryFilteredTaskList
             }
+            taskFilterResults.values = filteredTaskList
 
-            val filterResults = FilterResults()
-            filterResults.values = filteredTaskList
-            return filterResults
+            return taskFilterResults
         }
 
         @Suppress("UNCHECKED_CAST")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            filteredTaskList = results?.values as ArrayList<Task>
-            notifyDataSetChanged()
+            filteredTaskList = results?.values as List<Task>
+            this@TaskListAdapter.notifyDataSetChanged()
         }
+
     }
+
 
     class TaskListItemViewHolder(private val taskListItem: TaskListItemBinding) :
         RecyclerView.ViewHolder(taskListItem.root) {
@@ -102,4 +105,5 @@ class TaskListAdapter(private val taskList: List<Task>, private val clickListene
         }
 
     }
+
 }
