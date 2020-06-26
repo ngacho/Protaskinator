@@ -140,16 +140,15 @@
                 android:layout_marginBottom="8dp"
                 app:dateTextColor="@color/primary_view_color"
                 app:dayTextColor="@color/primary_view_color"
-                app:monthTextColor="@color/primary_view_color"
                 app:layout_constraintBottom_toTopOf="@id/cancel_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/date_due_label"
-                app:layout_constraintTop_toBottomOf="@id/number_picker" />
+                app:layout_constraintTop_toBottomOf="@id/number_picker"
+                app:monthTextColor="@color/primary_view_color" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_button"
                 style="@style/SaveCancelButton"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="@string/save"
                 app:icon="@drawable/ic_save"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -160,7 +159,6 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_button"
                 style="@style/SaveCancelButton"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="@string/cancel"
                 app:icon="@drawable/ic_cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
