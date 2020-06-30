@@ -20,6 +20,8 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.commonutils.TaskListAdapter
 import com.brocodes.wedoit.databinding.FragmentCompletedTasksBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
+import com.brocodes.wedoit.notification.AlarmScheduler
+import java.util.*
 
 class CompleteTasksFragment : Fragment() {
 
@@ -62,9 +64,19 @@ class CompleteTasksFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val selectedTask = completeTasksListAdapter.getTaskAt(viewHolder.adapterPosition)
                 if (direction == ItemTouchHelper.RIGHT) {
+                    if (selectedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
+                        AlarmScheduler.setAlarm(
+                            requireContext(),
+                            selectedTask,
+                            selectedTask.id
+                        )
+                    }
                     completedTasksViewModel.inCompleteTask(selectedTask)
                     Toast.makeText(context, "Task Marked Incomplete", Toast.LENGTH_SHORT).show()
                 } else {
+                    if (selectedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
+                        AlarmScheduler.cancelAlarm(requireContext(), selectedTask)
+                    }
                     completedTasksViewModel.deleteTask(selectedTask)
                     Toast.makeText(context, "Task Deleted", Toast.LENGTH_SHORT).show()
                 }

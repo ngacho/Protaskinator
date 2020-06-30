@@ -14,7 +14,6 @@ import androidx.core.app.NotificationManagerCompat
 import com.brocodes.wedoit.R
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
-import kotlin.random.Random
 
 object NotificationHelper {
 
@@ -57,8 +56,7 @@ object NotificationHelper {
     }
 
 
-    fun setNotification(context: Context, task: Task) {
-        val notificationID = Random.nextInt(1000, 9999)
+    fun setNotification(context: Context, task: Task, notificationID: Long) {
         //create a unique channelId for this app using the package name and app name
         val channelId = "${context.packageName}-${context.getString(R.string.app_name)}"
         //use the notificationCompat.Builder to begin building the notification
@@ -71,19 +69,28 @@ object NotificationHelper {
                         R.mipmap.ic_launcher
                     )
                 )
-            //set the title for this notification
-            setContentTitle("An item from your list is due today")
-            //set the content for the notification
-            setContentText(task.taskTitle)
+
+            setContentTitle("An Item from your list is due today")
+            setGroup(GROUP_DUE_TASKS)
+            setStyle(
+                NotificationCompat.BigTextStyle()
+                    //set the title for this notification
+                    .setBigContentTitle(task.taskTitle)
+                    //set the content for the notification
+                    .bigText(task.taskDescription)
+                    .setSummaryText("Due Item")
+            )
+
             //set the notification to auto cancel when tapped
             setAutoCancel(true)
             //created an intent to launch the main activity
-            val intent = Intent(context, MainActivity::class.java) 
+            val intent = Intent(context, MainActivity::class.java)
             intent.putExtra("due_tasks_fragment", "due_tasks_frag")
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             //wrapped intent in a pendingIntent, created through the getActivity method.
             //this returns a description of an activity to be launched
-            val pendingIntent = PendingIntent.getActivity(context, notificationID, intent, 0)
+            val pendingIntent =
+                PendingIntent.getActivity(context, notificationID.toInt(), intent, 0)
             //called the setContentIntent to attach it to the NotificationCompat.Builder
             setContentIntent(pendingIntent)
         }
@@ -91,23 +98,7 @@ object NotificationHelper {
         //used the app's context to get a reference to a NotificationManagerCompat.
         val notificationManager = NotificationManagerCompat.from(context)
         //called notify on the notificationManager passing in an identifier and the notification
-        notificationManager.notify(notificationID, notificationBuilder.build())
+        notificationManager.notify(notificationID.toInt(), notificationBuilder.build())
 
-    }
-
-    private fun buildGroupNotification(context: Context): NotificationCompat.Builder {
-        //using the name channel id create the group notification
-        val channelId = "${context.packageName}-${context.getString(R.string.app_name)}"
-        return NotificationCompat.Builder(context, channelId).apply {
-            setSmallIcon(R.drawable.ic_notification)
-            setContentTitle("The following Tasks Are Due today")
-            //setContentText()
-            setStyle(NotificationCompat.BigTextStyle())
-            setAutoCancel(true)
-            //set notification as the group summary(useful on versions of android prior to API 24)
-            setGroupSummary(true)
-            //set the group to the petTypeName
-            setGroup(GROUP_DUE_TASKS)
-        }
     }
 }

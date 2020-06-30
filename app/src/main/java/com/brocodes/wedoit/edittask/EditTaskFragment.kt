@@ -11,6 +11,7 @@ import com.brocodes.wedoit.R
 import com.brocodes.wedoit.databinding.FragmentEditTaskBinding
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
+import com.brocodes.wedoit.notification.AlarmScheduler
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -62,21 +63,21 @@ class EditTaskFragment : BottomSheetDialogFragment() {
 
         //set up date picker
         val datePicker = editTaskBinding.dateDuePicker
-        val cal = Calendar.getInstance(Locale.getDefault())
+        val taskDueDate = Calendar.getInstance(Locale.getDefault())
         //changing the date into time in millis to be set in the date picker
-        cal.timeInMillis = task.date
+        taskDueDate.timeInMillis = task.date
         datePicker.setInitialDate(
-            cal[Calendar.YEAR],
-            cal[Calendar.MONTH],
-            cal[Calendar.DAY_OF_MONTH]
+            taskDueDate[Calendar.YEAR],
+            taskDueDate[Calendar.MONTH],
+            taskDueDate[Calendar.DAY_OF_MONTH]
         )
         val currentTime = Calendar.getInstance(Locale.getDefault())
         val dates = mutableListOf<Date>()
-        if (currentTime.timeInMillis > cal.timeInMillis) {
-            dates.add(cal.time)
+        if (currentTime.timeInMillis > taskDueDate.timeInMillis) {
+            dates.add(taskDueDate.time)
             dates.add(currentTime.time)
             val daysBetween = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(
-                abs(currentTime.timeInMillis - cal.timeInMillis)
+                abs(currentTime.timeInMillis - taskDueDate.timeInMillis)
             )
             for (days in 0 until daysBetween) {
                 currentTime.add(Calendar.DAY_OF_YEAR, -1)
@@ -86,12 +87,12 @@ class EditTaskFragment : BottomSheetDialogFragment() {
         datePicker.deactivateDates(dates.toTypedArray())
         datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
             override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
-                cal[Calendar.DAY_OF_MONTH] = day
-                cal[Calendar.HOUR_OF_DAY] = 6
-                cal[Calendar.MINUTE] = 0
-                cal[Calendar.SECOND] = 0
-                cal[Calendar.MONTH] = month
-                cal[Calendar.YEAR] = year
+                taskDueDate[Calendar.DAY_OF_MONTH] = day
+                taskDueDate[Calendar.HOUR_OF_DAY] = 6
+                taskDueDate[Calendar.MINUTE] = 0
+                taskDueDate[Calendar.SECOND] = 0
+                taskDueDate[Calendar.MONTH] = month
+                taskDueDate[Calendar.YEAR] = year
             }
 
             override fun onDisabledDateSelected(
@@ -135,9 +136,13 @@ class EditTaskFragment : BottomSheetDialogFragment() {
                 taskTitle = taskName,
                 taskDescription = taskDescription,
                 priority = priority,
-                date = cal.timeInMillis
+                date = taskDueDate.timeInMillis
 
             )
+            if (newTask.date < Calendar.getInstance().timeInMillis && task.date != newTask.date) {
+                AlarmScheduler.cancelAlarm(requireContext(), newTask)
+                AlarmScheduler.setAlarm(requireContext(), newTask, newTask.id)
+            }
             editTaskViewModel.editTask(newTask)
 
             val saveToast = Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT)
