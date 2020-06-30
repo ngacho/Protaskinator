@@ -13,8 +13,11 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE complete = :isComplete")
     fun fetchCompleteTasks(isComplete: Boolean = true): LiveData<List<Task>>
 
+    @Query("SELECT * FROM tasks WHERE complete = :isComplete")
+    suspend fun fetchTasksForAlarms(isComplete: Boolean = false): List<Task>
+
     @Insert
-    suspend fun insert(task: Task)
+    suspend fun insert(task: Task): Long
 
     @Update
     suspend fun update(task: Task)

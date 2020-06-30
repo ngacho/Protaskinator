@@ -17,6 +17,7 @@ import com.brocodes.wedoit.databinding.FragmentDueTasksBinding
 import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
+import com.brocodes.wedoit.notification.AlarmScheduler
 import java.util.*
 
 class DueTasksFragment : Fragment() {
@@ -44,16 +45,19 @@ class DueTasksFragment : Fragment() {
         val dueTasksRecyclerView = dueTasksBinding.dueTasksRecyclerview
         dueTasksRecyclerView.setHasFixedSize(true)
         val today = Calendar.getInstance().timeInMillis
-        dueTasksViewModel.incompleteTasks.observe(viewLifecycleOwner, Observer { incompleteTaskList ->
-            val dueTasks = arrayListOf<Task>()
-            incompleteTaskList.forEach {
-                if(it.date - today < 86400000)
-                    dueTasks.add(it)
+        dueTasksViewModel.incompleteTasks.observe(
+            viewLifecycleOwner,
+            Observer { incompleteTaskList ->
+                val dueTasks = arrayListOf<Task>()
+                incompleteTaskList.forEach {
+                    if (it.date - today < 86400000)
+                        dueTasks.add(it)
 
-            }
-            dueTasksListAdapter = TaskListAdapter(dueTasks) { task: Task -> showEditTaskFragment(task) }
-            dueTasksRecyclerView.adapter = dueTasksListAdapter
-        })
+                }
+                dueTasksListAdapter =
+                    TaskListAdapter(dueTasks) { task: Task -> showEditTaskFragment(task) }
+                dueTasksRecyclerView.adapter = dueTasksListAdapter
+            })
 
         val swipeActionCallBack = object :
             SwipeActionCallBack(
@@ -64,9 +68,15 @@ class DueTasksFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val selectedTask = dueTasksListAdapter.getTaskAt(viewHolder.adapterPosition)
                 if (direction == ItemTouchHelper.RIGHT) {
+                    if (selectedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
+                        AlarmScheduler.cancelAlarm(requireContext(), selectedTask)
+                    }
                     dueTasksViewModel.completeTask(selectedTask)
                     Toast.makeText(context, "Task Marked Incomplete", Toast.LENGTH_SHORT).show()
                 } else {
+                    if (selectedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
+                        AlarmScheduler.cancelAlarm(requireContext(), selectedTask)
+                    }
                     dueTasksViewModel.deleteTask(selectedTask)
                     Toast.makeText(context, "Task Deleted", Toast.LENGTH_SHORT).show()
                 }

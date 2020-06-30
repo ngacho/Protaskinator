@@ -17,6 +17,8 @@ import com.brocodes.wedoit.databinding.FragmentPriorityTasksBinding
 import com.brocodes.wedoit.edittask.EditTaskFragment
 import com.brocodes.wedoit.mainactivity.MainActivity
 import com.brocodes.wedoit.model.entity.Task
+import com.brocodes.wedoit.notification.AlarmScheduler
+import java.util.*
 
 
 class PriorityTasksFragment : Fragment() {
@@ -59,10 +61,16 @@ class PriorityTasksFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val swipedTask = priorityTasksAdapter.getTaskAt(viewHolder.adapterPosition)
                 if (direction == ItemTouchHelper.RIGHT) {
+                    if (swipedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
+                        AlarmScheduler.cancelAlarm(requireContext(), swipedTask)
+                    }
                     //swipe left to right to complete task
                     priorityTasksViewModel.completeTask(swipedTask)
                     Toast.makeText(context, "Task Completed", Toast.LENGTH_SHORT).show()
                 } else {
+                    if (swipedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
+                        AlarmScheduler.cancelAlarm(requireContext(), swipedTask)
+                    }
                     //swipe right to left to delete task
                     priorityTasksViewModel.deleteTask(swipedTask)
                     Toast.makeText(context, "Task Deleted", Toast.LENGTH_SHORT).show()

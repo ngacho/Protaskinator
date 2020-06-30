@@ -3,7 +3,7 @@ package com.brocodes.wedoit.notification
 import com.brocodes.wedoit.model.entity.Task
 import com.google.gson.Gson
 
-object Serializer {
+object TaskSerializer {
     private val gson = Gson()
 
     fun serializeTask(task: Task) : String = gson.toJson(task)
