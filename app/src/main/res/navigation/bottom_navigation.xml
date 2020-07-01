@@ -7,23 +7,23 @@
 
     <fragment
         android:id="@+id/myTasksFragment"
-        android:name="com.brocodes.wedoit.mytasks.MyTasksFragment"
+        android:name="com.brocodes.protaskinator.mytasks.MyTasksFragment"
         android:label="MyTasksFragment"
         tools:layout="@layout/fragment_my_tasks"
         />
     <fragment
         android:id="@+id/priorityTasksFragment"
-        android:name="com.brocodes.wedoit.prioritytasks.PriorityTasksFragment"
+        android:name="com.brocodes.protaskinator.prioritytasks.PriorityTasksFragment"
         tools:layout="@layout/fragment_priority_tasks"
         android:label="PriorityTasksFragment" />
     <fragment
         android:id="@+id/dueTasksFragment"
-        android:name="com.brocodes.wedoit.duetasks.DueTasksFragment"
+        android:name="com.brocodes.protaskinator.duetasks.DueTasksFragment"
         tools:layout="@layout/fragment_due_tasks"
         android:label="DueTasksFragment" />
     <fragment
         android:id="@+id/completeTasksFragment"
-        android:name="com.brocodes.wedoit.completedtasks.CompleteTasksFragment"
+        android:name="com.brocodes.protaskinator.completedtasks.CompleteTasksFragment"
         tools:layout="@layout/fragment_completed_tasks"
         android:label="CompleteTasksFragment" />
 </navigation>
