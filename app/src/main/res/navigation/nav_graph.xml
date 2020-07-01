@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.brocodes.wedoit.onboarding.FirstFragment"
+        android:name="com.brocodes.protaskinator.onboarding.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.brocodes.wedoit.onboarding.SecondFragment"
+        android:name="com.brocodes.protaskinator.onboarding.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 

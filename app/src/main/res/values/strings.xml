@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">We Do It</string>
+    <string name="app_name">Protaskinator</string>
     <string name="day_name">Tuesday</string>
     <string name="due_date">Due: %1$s</string>
     <string name="my_tasks">My Tasks</string>

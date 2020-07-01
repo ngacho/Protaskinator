@@ -6,7 +6,7 @@
 
         <variable
             name="task"
-            type="com.brocodes.wedoit.model.entity.Task" />
+            type="com.brocodes.protaskinator.model.entity.Task" />
 
     </data>
 
