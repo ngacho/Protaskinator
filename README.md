@@ -1,4 +1,4 @@
-# WeDo
+# Protaskinator
 A simple but elegant To-Do List app
 
 ## Uses:
