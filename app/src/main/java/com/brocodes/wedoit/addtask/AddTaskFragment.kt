@@ -45,8 +45,8 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         )
 
 
-        val taskNameEditText = addTaskBinding.taskTitleEdittext
-        val taskDescriptionEditText = addTaskBinding.taskDescriptionEdittext
+        val taskNameEditText = addTaskBinding.tilTaskTitle
+        val taskDescriptionEditText = addTaskBinding.tilTaskDescription
         val priorityPicker = addTaskBinding.numberPicker
         val saveButton = addTaskBinding.saveButton
         val cancelButton = addTaskBinding.cancelButton
@@ -84,12 +84,12 @@ class AddTaskFragment : BottomSheetDialogFragment() {
 
             val priority = priorityPicker.value
             //Fetch task if both task title and task name are not the empty
-            if (!taskNameEditText.text.toString()
-                    .isBlank() && !taskDescriptionEditText.text.toString().isBlank()
+            if (!taskNameEditText.editText?.text.toString()
+                    .isBlank() && !taskDescriptionEditText.editText?.text.toString().isBlank()
             ) {
 
-                val taskName = taskNameEditText.text.toString().trim()
-                val taskDescription = taskDescriptionEditText.text.toString().trim()
+                val taskName = taskNameEditText.editText?.text.toString().trim()
+                val taskDescription = taskDescriptionEditText.editText?.text.toString().trim()
 
                 val task = Task(
                     taskTitle = taskName,
@@ -101,11 +101,11 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                 AlarmScheduler.setAlarm(requireContext(), task, requestCode.toInt())
                 Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT).show()
                 dismiss()
-            } else if (taskNameEditText.text.toString().isBlank()) {
+            } else if (taskNameEditText.editText?.text.toString().isBlank()) {
                 //Error is task name is empty
                 taskNameEditText.requestFocus()
                 Toast.makeText(this.context, "Please Name your task", Toast.LENGTH_SHORT).show()
-            } else if (taskDescriptionEditText.text.toString().isBlank()) {
+            } else if (taskDescriptionEditText.editText?.text.toString().isBlank()) {
                 //error if task description is empty
                 taskNameEditText.requestFocus()
                 Toast.makeText(this.context, "Please Describe your task", Toast.LENGTH_SHORT).show()

@@ -51,14 +51,14 @@ class EditTaskFragment : BottomSheetDialogFragment() {
             false
         )
 
-        val taskNameEditText = editTaskBinding.taskTitleEdittext
-        val taskDescriptionEditText = editTaskBinding.taskDescriptionEdittext
+        val taskNameEditText = editTaskBinding.tilTaskTitle
+        val taskDescriptionEditText = editTaskBinding.tilTaskDescription
         val priorityPicker = editTaskBinding.numberPicker
         val saveButton = editTaskBinding.saveButton
         val cancelButton = editTaskBinding.cancelButton
         //updating the edit text fragments based on values in the task
-        taskNameEditText.text.append(task.taskTitle)
-        taskDescriptionEditText.text.append(task.taskDescription)
+        taskNameEditText.editText?.text?.append(task.taskTitle)
+        taskDescriptionEditText.editText?.text?.append(task.taskDescription)
         priorityPicker.value = task.priority
 
         //set up date picker
@@ -116,16 +116,16 @@ class EditTaskFragment : BottomSheetDialogFragment() {
 
             val taskName: String
             val taskDescription: String
-            if (!taskNameEditText.text.toString()
-                    .isBlank() && !taskDescriptionEditText.text.toString().isBlank()
+            if (!taskNameEditText.editText?.text?.toString()?.isBlank()!!
+                && !taskDescriptionEditText.editText?.text?.toString()?.isBlank()!!
             ) {
-                taskName = taskNameEditText.text.toString().trim()
-                taskDescription = taskDescriptionEditText.text.toString().trim()
-            } else if (taskNameEditText.text.isBlank()) {
+                taskName = taskNameEditText.editText?.text.toString().trim()
+                taskDescription = taskDescriptionEditText.editText?.text.toString().trim()
+            } else if (taskNameEditText.editText?.text?.toString()?.isBlank()!!) {
                 taskName = task.taskTitle
-                taskDescription = taskDescriptionEditText.text.toString().trim()
-            } else if (taskDescriptionEditText.text.isBlank()) {
-                taskName = taskNameEditText.text.toString().trim()
+                taskDescription = taskDescriptionEditText.editText?.text.toString().trim()
+            } else if (taskDescriptionEditText.editText?.text?.toString()?.isBlank()!!) {
+                taskName = taskNameEditText.editText?.text.toString().trim()
                 taskDescription = task.taskDescription
             } else {
                 taskName = task.taskTitle
