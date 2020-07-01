@@ -33,47 +33,41 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_task_title"
+                style="@style/OutlinedBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/secondary_view_color"
+                android:hint="@string/new_task_title_prompt"
                 app:hintTextColor="@color/secondary_view_color"
                 app:layout_constraintTop_toBottomOf="@id/title">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/task_title_edittext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/montserrat"
-                    android:hint="@string/new_task_title_prompt"
+                    android:layout_height="match_parent"
                     android:maxLines="2"
-                    android:textColor="@color/secondary_view_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/primary_view_color" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_task_description"
+                style="@style/OutlinedBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/secondary_view_color"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/new_task_description_prompt"
                 app:hintTextColor="@color/secondary_view_color"
                 app:layout_constraintTop_toBottomOf="@id/til_task_title">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/task_description_edittext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/montserrat"
-                    android:hint="@string/new_task_description_prompt"
-                    android:maxLines="7"
-                    android:textColor="@color/secondary_view_color"
-                    android:textSize="15sp" />
+                    android:layout_height="match_parent"
+                    android:maxLines="5"
+                    android:textSize="15sp"
+                    android:textColor="@color/primary_view_color"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView

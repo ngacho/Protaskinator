@@ -8,7 +8,7 @@
     <string name="place_holder">place Holder</string>
     <string name="add_Task">Add Task</string>
     <string name="task_title">Task:</string>
-    <string name="task_title_prompt">Enter your Task Name here</string>
+    <string name="task_title_prompt">Please name your Task</string>
     <string name="task_description">Task Description:</string>
     <string name="task_description_prompt">Please Describe your Task</string>
     <string name="save">SAVE</string>
@@ -17,8 +17,8 @@
     <string name="edit_task">Edit Task</string>
 
 
-    <string name="new_task_title_prompt">Enter the new name of the task here</string>
-    <string name="new_task_description_prompt">Please re-describe your task here</string>
+    <string name="new_task_title_prompt">Enter the rename of the task</string>
+    <string name="new_task_description_prompt">Please redescribe your task</string>
     <string name="search_title">Search Task</string>
     <string name="switch_theme">Switch Theme</string>
     <string name="delete_all">Delete All Tasks</string>
