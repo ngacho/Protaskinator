@@ -1,7 +1,6 @@
 package com.brocodes.protaskinator.mytasks
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -18,6 +17,7 @@ import com.brocodes.protaskinator.edittask.EditTaskFragment
 import com.brocodes.protaskinator.mainactivity.MainActivity
 import com.brocodes.protaskinator.model.entity.Task
 import com.brocodes.protaskinator.notification.AlarmScheduler
+import com.google.firebase.analytics.ktx.logEvent
 import java.util.*
 
 class MyTasksFragment : Fragment() {
@@ -37,6 +37,7 @@ class MyTasksFragment : Fragment() {
     ): View? {
         //set up the view model
         val myTasksViewModel = (activity as MainActivity).mainActivityViewModel
+        val firebaseAnalytics = (activity as MainActivity).firebaseAnalytics
 
         val myTasksBinding = DataBindingUtil.inflate<FragmentMyTasksBinding>(
             inflater,
@@ -67,6 +68,9 @@ class MyTasksFragment : Fragment() {
                     }
                     //swipe left to right to complete task
                     myTasksViewModel.completeTask(swipedTask)
+                    firebaseAnalytics.logEvent("Task Completed") {
+                        param("task_id", swipedTask.id.toLong())
+                    }
                     Toast.makeText(context, "Task Completed", Toast.LENGTH_SHORT).show()
                 } else {
                     if (swipedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {

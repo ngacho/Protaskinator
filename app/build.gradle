@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -85,6 +87,12 @@ dependencies {
 
     def gson_version = "2.8.5"
     implementation "com.google.code.gson:gson:$gson_version"
+
+    def firebase_analytics_version = "17.4.3"
+    implementation "com.google.firebase:firebase-analytics-ktx:$firebase_analytics_version"
+
+    def firebase_crashlytics_version = "17.1.0"
+    implementation "com.google.firebase:firebase-crashlytics:$firebase_crashlytics_version"
 
 
 }

@@ -38,7 +38,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:rippleColor="@color/colorPrimary" />
+            app:rippleColor="@color/colorPrimary"
+            app:tint="#f5f5f6" />
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

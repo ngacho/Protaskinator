@@ -17,6 +17,7 @@ import com.brocodes.protaskinator.edittask.EditTaskFragment
 import com.brocodes.protaskinator.mainactivity.MainActivity
 import com.brocodes.protaskinator.model.entity.Task
 import com.brocodes.protaskinator.notification.AlarmScheduler
+import com.google.firebase.analytics.ktx.logEvent
 import java.util.*
 
 class DueTasksFragment : Fragment() {
@@ -33,6 +34,7 @@ class DueTasksFragment : Fragment() {
     ): View? {
 
         val dueTasksViewModel = (activity as MainActivity).mainActivityViewModel
+        val firebaseAnalytics = (activity as MainActivity).firebaseAnalytics
 
         val dueTasksBinding = DataBindingUtil.inflate<FragmentDueTasksBinding>(
             inflater,
@@ -71,6 +73,9 @@ class DueTasksFragment : Fragment() {
                         AlarmScheduler.cancelAlarm(requireContext(), selectedTask)
                     }
                     dueTasksViewModel.completeTask(selectedTask)
+                    firebaseAnalytics.logEvent("Task Completed"){
+                        param("task_id", selectedTask.id.toLong())
+                    }
                     Toast.makeText(context, "Task Marked Incomplete", Toast.LENGTH_SHORT).show()
                 } else {
                     if (selectedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {

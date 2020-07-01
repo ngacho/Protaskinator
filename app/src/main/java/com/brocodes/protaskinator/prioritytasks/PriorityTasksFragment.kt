@@ -17,6 +17,7 @@ import com.brocodes.protaskinator.edittask.EditTaskFragment
 import com.brocodes.protaskinator.mainactivity.MainActivity
 import com.brocodes.protaskinator.model.entity.Task
 import com.brocodes.protaskinator.notification.AlarmScheduler
+import com.google.firebase.analytics.ktx.logEvent
 import java.util.*
 
 
@@ -33,6 +34,7 @@ class PriorityTasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val priorityTasksViewModel = (activity as MainActivity).mainActivityViewModel
+        val firebaseAnalytics = (activity as MainActivity).firebaseAnalytics
 
         val priorityTasksBinding = DataBindingUtil.inflate<FragmentPriorityTasksBinding>(
             inflater,
@@ -65,6 +67,9 @@ class PriorityTasksFragment : Fragment() {
                     }
                     //swipe left to right to complete task
                     priorityTasksViewModel.completeTask(swipedTask)
+                    firebaseAnalytics.logEvent("Task Completed") {
+                        param("task_id", swipedTask.id.toLong())
+                    }
                     Toast.makeText(context, "Task Completed", Toast.LENGTH_SHORT).show()
                 } else {
                     if (swipedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {

@@ -23,6 +23,9 @@ import com.brocodes.protaskinator.mainactivity.utils.loadInitialTheme
 import com.brocodes.protaskinator.mainactivity.utils.switchTheme
 import com.brocodes.protaskinator.mainactivity.viewmodel.MainActivityViewModel
 import com.brocodes.protaskinator.onboarding.OnboardingDialogue
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -33,18 +36,22 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var prefs: SharedPrefs
 
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
         val appComponent = (application as MyApplication).appComponent
         appComponent.inject(this)
         //Initialize Theme
         loadInitialTheme(prefs)
+
         super.onCreate(savedInstanceState)
 
-        if(prefs.isFirstTime){
+        firebaseAnalytics = Firebase.analytics
+
+        if (prefs.isFirstTime) {
             startOnBoarding()
         }
-
         val mainDataBinding =
             DataBindingUtil.setContentView<ActivityMainBinding>(
                 this,
@@ -68,7 +75,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         //cancel the notifications when activity is launched
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancelAll()
     }
 
@@ -119,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
     }
 
-    private fun startOnBoarding(){
+    private fun startOnBoarding() {
         val onBoardingFragment = OnboardingDialogue()
         onBoardingFragment.show(supportFragmentManager, onBoardingFragment.tag)
     }

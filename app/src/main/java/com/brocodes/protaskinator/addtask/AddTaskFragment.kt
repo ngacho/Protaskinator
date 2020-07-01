@@ -14,6 +14,7 @@ import com.brocodes.protaskinator.notification.AlarmScheduler
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.ktx.logEvent
 import com.vivekkaushik.datepicker.OnDateSelectedListener
 import java.util.*
 
@@ -28,6 +29,7 @@ class AddTaskFragment : BottomSheetDialogFragment() {
     ): View? {
 
         val addTaskViewModel = (activity as MainActivity).mainActivityViewModel
+        val firebaseAnalytics = (activity as MainActivity).firebaseAnalytics
 
         // Set dialog initial state when shown
         dialog?.setOnShowListener {
@@ -97,7 +99,11 @@ class AddTaskFragment : BottomSheetDialogFragment() {
                     priority = priority,
                     date = taskDueDate.timeInMillis
                 )
+
                 val requestCode = addTaskViewModel.addTask(task)
+                firebaseAnalytics.logEvent("New Task Added"){
+                    param("task_id", requestCode)
+                }
                 AlarmScheduler.setAlarm(requireContext(), task, requestCode.toInt())
                 Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT).show()
                 dismiss()

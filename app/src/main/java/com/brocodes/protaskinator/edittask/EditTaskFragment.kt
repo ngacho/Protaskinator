@@ -14,6 +14,7 @@ import com.brocodes.protaskinator.notification.AlarmScheduler
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.ktx.logEvent
 import com.vivekkaushik.datepicker.OnDateSelectedListener
 import java.util.*
 import kotlin.math.abs
@@ -34,6 +35,7 @@ class EditTaskFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val editTaskViewModel = (activity as MainActivity).mainActivityViewModel
+        val firebaseAnalytics = (activity as MainActivity).firebaseAnalytics
 
         // Set dialog initial state when shown
         dialog?.setOnShowListener {
@@ -142,6 +144,9 @@ class EditTaskFragment : BottomSheetDialogFragment() {
                 AlarmScheduler.setAlarm(requireContext(), newTask, newTask.id)
             }
             editTaskViewModel.editTask(newTask)
+            firebaseAnalytics.logEvent("Task Edited") {
+                param("task_id", newTask.id.toLong())
+            }
 
             val saveToast = Toast.makeText(this.context, "Task Saved", Toast.LENGTH_SHORT)
             saveToast.show()

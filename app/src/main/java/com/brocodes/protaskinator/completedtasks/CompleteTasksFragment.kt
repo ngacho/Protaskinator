@@ -20,6 +20,7 @@ import com.brocodes.protaskinator.commonutils.TaskListAdapter
 import com.brocodes.protaskinator.databinding.FragmentCompletedTasksBinding
 import com.brocodes.protaskinator.mainactivity.MainActivity
 import com.brocodes.protaskinator.notification.AlarmScheduler
+import com.google.firebase.analytics.ktx.logEvent
 import java.util.*
 
 class CompleteTasksFragment : Fragment() {
@@ -36,6 +37,7 @@ class CompleteTasksFragment : Fragment() {
     ): View? {
 
         val completedTasksViewModel = (activity as MainActivity).mainActivityViewModel
+        val firebaseAnalytics = (activity as MainActivity).firebaseAnalytics
 
         val completeTasksBinding = DataBindingUtil.inflate<FragmentCompletedTasksBinding>(
             inflater,
@@ -72,6 +74,9 @@ class CompleteTasksFragment : Fragment() {
                     }
                     completedTasksViewModel.inCompleteTask(selectedTask)
                     Toast.makeText(context, "Task Marked Incomplete", Toast.LENGTH_SHORT).show()
+                    firebaseAnalytics.logEvent("Task Marked Incomplete"){
+                        param("task_id", selectedTask.id.toLong())
+                    }
                 } else {
                     if (selectedTask.date > Calendar.getInstance(Locale.getDefault()).timeInMillis) {
                         AlarmScheduler.cancelAlarm(requireContext(), selectedTask)
