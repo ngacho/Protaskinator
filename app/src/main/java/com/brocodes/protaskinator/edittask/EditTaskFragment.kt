@@ -67,6 +67,10 @@ class EditTaskFragment : BottomSheetDialogFragment() {
         val taskDueDate = Calendar.getInstance(Locale.getDefault())
         //changing the date into time in millis to be set in the date picker
         taskDueDate.timeInMillis = task.date
+        taskDueDate[Calendar.HOUR_OF_DAY] = 6
+        taskDueDate[Calendar.MINUTE] = 0
+        taskDueDate[Calendar.SECOND] = 0
+
         datePicker.setInitialDate(
             taskDueDate[Calendar.YEAR],
             taskDueDate[Calendar.MONTH],
@@ -89,9 +93,6 @@ class EditTaskFragment : BottomSheetDialogFragment() {
         datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
             override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
                 taskDueDate[Calendar.DAY_OF_MONTH] = day
-                taskDueDate[Calendar.HOUR_OF_DAY] = 6
-                taskDueDate[Calendar.MINUTE] = 0
-                taskDueDate[Calendar.SECOND] = 0
                 taskDueDate[Calendar.MONTH] = month
                 taskDueDate[Calendar.YEAR] = year
             }

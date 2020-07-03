@@ -55,6 +55,10 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         //setting up the date picker
         val datePicker = addTaskBinding.dateDuePicker
         val taskDueDate = Calendar.getInstance(Locale.getDefault())
+        taskDueDate[Calendar.HOUR_OF_DAY] = 6
+        taskDueDate[Calendar.MINUTE] = 0
+        taskDueDate[Calendar.SECOND] = 0
+
         taskDueDate.add(Calendar.DAY_OF_YEAR, 1)
         datePicker.setInitialDate(
             taskDueDate[Calendar.YEAR],
@@ -65,9 +69,6 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         datePicker.setOnDateSelectedListener(object : OnDateSelectedListener {
             override fun onDateSelected(year: Int, month: Int, day: Int, dayOfWeek: Int) {
                 taskDueDate[Calendar.DAY_OF_MONTH] = day
-                taskDueDate[Calendar.HOUR_OF_DAY] = 6
-                taskDueDate[Calendar.MINUTE] = 0
-                taskDueDate[Calendar.SECOND] = 0
                 taskDueDate[Calendar.MONTH] = month
                 taskDueDate[Calendar.YEAR] = year
             }
